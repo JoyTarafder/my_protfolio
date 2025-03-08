@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --dots: rgba(0, 0, 0, 0.4);
+}
+
+[data-theme='dark'] {
+  --dots: rgba(255, 255, 255, 0.4);
+}
+
+.bg-grid-primary {
+  background-size: 24px 24px;
+  background-image: radial-gradient(var(--dots) 1px, transparent 1px);
+}
