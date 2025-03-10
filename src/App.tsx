@@ -1,10 +1,10 @@
-import React from "react";
-import { Navigation } from "./components/navigation";
-import { HeroSection } from "./components/hero-section";
 import { AboutSection } from "./components/about-section";
-import { SkillsSection } from "./components/skills-section";
-import { ProjectsSection } from "./components/projects-section";
 import { ContactSection } from "./components/contact-section";
+import { EducationSection } from "./components/education-section";
+import { HeroSection } from "./components/hero-section";
+import { Navigation } from "./components/navigation";
+import { ProjectsSection } from "./components/projects-section";
+import { SkillsSection } from "./components/skills-section";
 
 export default function App() {
   return (
@@ -14,6 +14,7 @@ export default function App() {
         <HeroSection />
         <AboutSection />
         <SkillsSection />
+        <EducationSection />
         <ProjectsSection />
         <ContactSection />
       </main>

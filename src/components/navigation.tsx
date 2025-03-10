@@ -18,6 +18,9 @@ export function Navigation() {
         <NavbarItem>
           <Link color="foreground" href="#projects">Projects</Link>
         </NavbarItem>
+        <NavbarItem>
+          <Link color="foreground" href="#education">Education</Link>
+        </NavbarItem>
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem>
