@@ -1,7 +1,7 @@
-import React from "react";
+
 import { Button } from "@heroui/react";
 import { Icon } from "@iconify/react";
-import { BackgroundBeamsWithCollision } from "@/components/ui/background-beams-with-collision";
+
 
 export function HeroSection() {
   return (

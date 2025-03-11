@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardBody, Tooltip } from "@heroui/react";
+import {  Tooltip } from "@heroui/react";
 import { Icon } from "@iconify/react";
 
 const skillCategories = [

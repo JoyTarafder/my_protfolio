@@ -16,7 +16,7 @@ export function ThemeSwitch() {
     <Tooltip content={`Switch to ${theme === "light" ? "dark" : "light"} mode`}>
       <Button
         isIconOnly
-        variant="primary"
+        
         onPress={() => setTheme(theme === "light" ? "dark" : "light")}
         className="transition-transform hover:scale-105"
         aria-label="Toggle theme"

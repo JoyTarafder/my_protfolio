@@ -1,4 +1,4 @@
-import React from "react";
+
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button } from "@heroui/react";
 import { ThemeSwitch } from "./theme-switch";
 
