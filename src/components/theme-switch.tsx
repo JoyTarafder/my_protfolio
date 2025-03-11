@@ -1,16 +1,12 @@
 import { Button, Tooltip } from "@heroui/react";
 import { useTheme } from "@heroui/use-theme";
 import { Icon } from "@iconify/react";
-import { useEffect } from "react";
+
 
 export function ThemeSwitch() {
   const { theme, setTheme } = useTheme();
 
-  useEffect(() => {
-    // This effect will run whenever the theme changes
-    document.getElementById("education").className =
-      theme === "light" ? "bg-white text-black" : "bg-black text-white";
-  }, [theme]);
+
 
   return (
     <Tooltip content={`Switch to ${theme === "light" ? "dark" : "light"} mode`}>
