@@ -128,13 +128,14 @@ export function Navigation() {
       <NavbarContent className="hidden sm:flex gap-6" justify="center">
         {isHomePage
           ? menuItems.slice(0, -1).map((item) => {
-              if (!("href" in item)) return null;
+              if (!("href" in item) || !item.href) return null;
+              const href = item.href as string;
               return (
-                <NavbarItem key={item.href} className="relative group">
+                <NavbarItem key={href} className="relative group">
                   <UILink
-                    href={item.href}
+                    href={href}
                     className={`relative px-4 py-2 transition-all duration-300 flex items-center gap-2 hover:text-primary ${
-                      activeSection === item.href.slice(1)
+                      activeSection === href.slice(1)
                         ? "text-primary"
                         : "text-foreground/70"
                     }`}
@@ -142,15 +143,13 @@ export function Navigation() {
                     <Icon
                       icon={item.icon}
                       className={`text-lg transition-transform duration-300 group-hover:scale-110 ${
-                        activeSection === item.href.slice(1)
-                          ? "animate-pulse"
-                          : ""
+                        activeSection === href.slice(1) ? "animate-pulse" : ""
                       }`}
                     />
                     {item.label}
                     <span
                       className={`absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-primary-500 to-secondary-500 transform origin-left transition-transform duration-300 ${
-                        activeSection === item.href.slice(1)
+                        activeSection === href.slice(1)
                           ? "scale-x-100"
                           : "scale-x-0"
                       } group-hover:scale-x-100`}
@@ -161,13 +160,14 @@ export function Navigation() {
               );
             })
           : menuItems.slice(1).map((item) => {
-              if (!("to" in item)) return null;
+              if (!("to" in item) || !item.to) return null;
+              const to = item.to as string;
               return (
-                <NavbarItem key={item.to} className="relative group">
+                <NavbarItem key={to} className="relative group">
                   <RouterLink
-                    to={item.to}
+                    to={to}
                     className={`relative px-4 py-2 transition-all duration-300 flex items-center gap-2 hover:text-primary ${
-                      location.pathname === item.to
+                      location.pathname === to
                         ? "text-primary"
                         : "text-foreground/70"
                     }`}
@@ -175,15 +175,13 @@ export function Navigation() {
                     <Icon
                       icon={item.icon}
                       className={`text-lg transition-transform duration-300 group-hover:scale-110 ${
-                        location.pathname === item.to ? "animate-pulse" : ""
+                        location.pathname === to ? "animate-pulse" : ""
                       }`}
                     />
                     {item.label}
                     <span
                       className={`absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-primary-500 to-secondary-500 transform origin-left transition-transform duration-300 ${
-                        location.pathname === item.to
-                          ? "scale-x-100"
-                          : "scale-x-0"
+                        location.pathname === to ? "scale-x-100" : "scale-x-0"
                       } group-hover:scale-x-100`}
                     ></span>
                   </RouterLink>
@@ -238,7 +236,7 @@ export function Navigation() {
 
       <NavbarMenu className="pt-6 bg-background/95 backdrop-blur-xl">
         {menuItems.map((item, index) => {
-          if ("href" in item) {
+          if ("href" in item && item.href) {
             return (
               <NavbarMenuItem key={`href-${index}`}>
                 <UILink
@@ -252,18 +250,21 @@ export function Navigation() {
               </NavbarMenuItem>
             );
           }
-          return (
-            <NavbarMenuItem key={`to-${index}`}>
-              <RouterLink
-                to={item.to}
-                className="w-full flex items-center gap-2 py-2 text-lg hover:text-primary transition-colors"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                <Icon icon={item.icon} />
-                {item.label}
-              </RouterLink>
-            </NavbarMenuItem>
-          );
+          if ("to" in item && item.to) {
+            return (
+              <NavbarMenuItem key={`to-${index}`}>
+                <RouterLink
+                  to={item.to}
+                  className="w-full flex items-center gap-2 py-2 text-lg hover:text-primary transition-colors"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <Icon icon={item.icon} />
+                  {item.label}
+                </RouterLink>
+              </NavbarMenuItem>
+            );
+          }
+          return null;
         })}
       </NavbarMenu>
 
