@@ -14,6 +14,24 @@ import { useEffect, useState } from "react";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 import { ThemeSwitch } from "./theme-switch";
 
+// Define types for menu items
+type BaseMenuItem = {
+  label: string;
+  icon: string;
+};
+
+type HashMenuItem = BaseMenuItem & {
+  href: string;
+  to?: never;
+};
+
+type RouteMenuItem = BaseMenuItem & {
+  to: string;
+  href?: never;
+};
+
+type MenuItem = HashMenuItem | RouteMenuItem;
+
 export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
@@ -56,7 +74,7 @@ export function Navigation() {
     };
   }, [isHomePage]);
 
-  const menuItems = isHomePage
+  const menuItems: MenuItem[] = isHomePage
     ? [
         { href: "#about", label: "About", icon: "lucide:user" },
         { href: "#skills", label: "Skills", icon: "lucide:code" },
@@ -109,64 +127,70 @@ export function Navigation() {
 
       <NavbarContent className="hidden sm:flex gap-6" justify="center">
         {isHomePage
-          ? menuItems.slice(0, -1).map((item) => (
-              <NavbarItem key={item.href} className="relative group">
-                <UILink
-                  href={item.href}
-                  className={`relative px-4 py-2 transition-all duration-300 flex items-center gap-2 hover:text-primary ${
-                    activeSection === item.href.slice(1)
-                      ? "text-primary"
-                      : "text-foreground/70"
-                  }`}
-                >
-                  <Icon
-                    icon={item.icon}
-                    className={`text-lg transition-transform duration-300 group-hover:scale-110 ${
-                      activeSection === item.href.slice(1)
-                        ? "animate-pulse"
-                        : ""
-                    }`}
-                  />
-                  {item.label}
-                  <span
-                    className={`absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-primary-500 to-secondary-500 transform origin-left transition-transform duration-300 ${
-                      activeSection === item.href.slice(1)
-                        ? "scale-x-100"
-                        : "scale-x-0"
-                    } group-hover:scale-x-100`}
-                  ></span>
-                </UILink>
-                <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-primary/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              </NavbarItem>
-            ))
-          : menuItems.slice(1).map((item) => (
-              <NavbarItem key={item.to} className="relative group">
-                <RouterLink
-                  to={item.to}
-                  className={`relative px-4 py-2 transition-all duration-300 flex items-center gap-2 hover:text-primary ${
-                    location.pathname === item.to
-                      ? "text-primary"
-                      : "text-foreground/70"
-                  }`}
-                >
-                  <Icon
-                    icon={item.icon}
-                    className={`text-lg transition-transform duration-300 group-hover:scale-110 ${
-                      location.pathname === item.to ? "animate-pulse" : ""
-                    }`}
-                  />
-                  {item.label}
-                  <span
-                    className={`absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-primary-500 to-secondary-500 transform origin-left transition-transform duration-300 ${
-                      location.pathname === item.to
-                        ? "scale-x-100"
-                        : "scale-x-0"
-                    } group-hover:scale-x-100`}
-                  ></span>
-                </RouterLink>
-                <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-primary/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              </NavbarItem>
-            ))}
+          ? menuItems.slice(0, -1).map(
+              (item) =>
+                "href" in item && (
+                  <NavbarItem key={item.href} className="relative group">
+                    <UILink
+                      href={item.href}
+                      className={`relative px-4 py-2 transition-all duration-300 flex items-center gap-2 hover:text-primary ${
+                        activeSection === item.href.slice(1)
+                          ? "text-primary"
+                          : "text-foreground/70"
+                      }`}
+                    >
+                      <Icon
+                        icon={item.icon}
+                        className={`text-lg transition-transform duration-300 group-hover:scale-110 ${
+                          activeSection === item.href.slice(1)
+                            ? "animate-pulse"
+                            : ""
+                        }`}
+                      />
+                      {item.label}
+                      <span
+                        className={`absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-primary-500 to-secondary-500 transform origin-left transition-transform duration-300 ${
+                          activeSection === item.href.slice(1)
+                            ? "scale-x-100"
+                            : "scale-x-0"
+                        } group-hover:scale-x-100`}
+                      ></span>
+                    </UILink>
+                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-primary/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  </NavbarItem>
+                )
+            )
+          : menuItems.slice(1).map(
+              (item) =>
+                "to" in item && (
+                  <NavbarItem key={item.to} className="relative group">
+                    <RouterLink
+                      to={item.to}
+                      className={`relative px-4 py-2 transition-all duration-300 flex items-center gap-2 hover:text-primary ${
+                        location.pathname === item.to
+                          ? "text-primary"
+                          : "text-foreground/70"
+                      }`}
+                    >
+                      <Icon
+                        icon={item.icon}
+                        className={`text-lg transition-transform duration-300 group-hover:scale-110 ${
+                          location.pathname === item.to ? "animate-pulse" : ""
+                        }`}
+                      />
+                      {item.label}
+                      <span
+                        className={`absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-primary-500 to-secondary-500 transform origin-left transition-transform duration-300 ${
+                          location.pathname === item.to
+                            ? "scale-x-100"
+                            : "scale-x-0"
+                        } group-hover:scale-x-100`}
+                      ></span>
+                    </RouterLink>
+                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-primary/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  </NavbarItem>
+                )
+            )}
       </NavbarContent>
 
       <NavbarContent justify="end" className="gap-4">
@@ -214,8 +238,8 @@ export function Navigation() {
 
       <NavbarMenu className="pt-6 bg-background/95 backdrop-blur-xl">
         {menuItems.map((item, index) => (
-          <NavbarMenuItem key={`${item.href || item.to}-${index}`}>
-            {item.href ? (
+          <NavbarMenuItem key={index}>
+            {"href" in item ? (
               <UILink
                 href={item.href}
                 className="w-full flex items-center gap-2 py-2 text-lg hover:text-primary transition-colors"
