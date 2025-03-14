@@ -147,52 +147,85 @@ export function AboutSection() {
                 isVisible ? "animate-slide-left" : "opacity-0"
               }`}
             >
-              {/* Ultimate Premium Avatar Animation */}
-              <div className="relative w-72 h-72 group perspective-1000">
-                {/* Magnetic field background */}
-                <div className="absolute -inset-12 rounded-full animate-magnetic-field">
-                  <div className="absolute inset-0 bg-gradient-to-r from-primary-500/20 via-secondary-500/20 to-accent-500/20 blur-3xl"></div>
-                  <div className="absolute inset-0 bg-gradient-to-tr from-primary-500/10 via-transparent to-accent-500/10 mix-blend-overlay"></div>
+              {/* Cosmic Avatar Animation - Enhanced with new effects */}
+              <div className="relative w-80 h-80 group perspective-1000">
+                {/* Quantum background effect */}
+                <div className="absolute -inset-16 rounded-full animate-nebula">
+                  <div className="absolute inset-0 bg-gradient-to-r from-primary-500/30 via-secondary-500/20 to-accent-500/30 blur-3xl"></div>
+                  <div className="absolute inset-0 bg-gradient-to-tr from-primary-500/20 via-transparent to-accent-500/20 mix-blend-overlay"></div>
+                  <div className="absolute inset-0 rounded-full opacity-30 animate-cosmic-wave"></div>
                 </div>
 
-                {/* Energy field */}
-                <div className="absolute -inset-8 rounded-full opacity-70">
+                {/* Prism light effect */}
+                <div className="absolute -inset-12 rounded-full opacity-40 animate-prism-light blur-xl"></div>
+
+                {/* Constellation effect */}
+                <div className="absolute -inset-10 animate-constellation">
+                  {[...Array(12)].map((_, i) => {
+                    const angle = (i * Math.PI * 2) / 12;
+                    const distance = 120 + Math.random() * 30;
+                    return (
+                      <div
+                        key={`star-${i}`}
+                        className="absolute w-1 h-1 bg-white rounded-full"
+                        style={{
+                          top: `calc(50% + ${Math.sin(angle) * distance}px)`,
+                          left: `calc(50% + ${Math.cos(angle) * distance}px)`,
+                          opacity: Math.random() * 0.5 + 0.3,
+                          boxShadow: "0 0 3px 1px rgba(255, 255, 255, 0.3)",
+                        }}
+                      />
+                    );
+                  })}
+                </div>
+
+                {/* Stardust particles */}
+                {[...Array(30)].map((_, i) => (
+                  <div
+                    key={`stardust-${i}`}
+                    className="absolute animate-stardust"
+                    style={{
+                      top: `${Math.random() * 160 - 30}%`,
+                      left: `${Math.random() * 160 - 30}%`,
+                      width: `${Math.random() * 2 + 1}px`,
+                      height: `${Math.random() * 2 + 1}px`,
+                      background: `rgba(var(--color-${
+                        ["primary", "secondary", "accent"][
+                          Math.floor(Math.random() * 3)
+                        ]
+                      }, ${Math.random() * 0.6 + 0.4})`,
+                      borderRadius: "50%",
+                      animationDelay: `${i * -0.15}s`,
+                      animationDuration: `${Math.random() * 3 + 3}s`,
+                      boxShadow: "0 0 3px rgba(255, 255, 255, 0.3)",
+                    }}
+                  />
+                ))}
+
+                {/* Rotating quantum rings */}
+                <div className="absolute -inset-6 rounded-full opacity-80">
                   {[...Array(3)].map((_, i) => (
                     <div
-                      key={`energy-ring-${i}`}
-                      className="absolute inset-0 rounded-full border-2 border-primary-500/20 animate-portal-spin"
+                      key={`quantum-ring-${i}`}
+                      className="absolute inset-0 rounded-full border-2 border-primary-500/30 animate-portal-spin"
                       style={{
-                        animationDelay: `${i * -4}s`,
-                        transform: `scale(${1 + i * 0.1})`,
+                        animationDelay: `${i * -3}s`,
+                        transform: `scale(${1 + i * 0.1}) rotate(${i * 30}deg)`,
+                        borderImage:
+                          "linear-gradient(45deg, rgba(var(--color-primary), 0.6), rgba(var(--color-secondary), 0.6)) 1",
+                        filter: `hue-rotate(${i * 30}deg)`,
                       }}
                     ></div>
                   ))}
                 </div>
 
-                {/* Floating particles */}
-                {[...Array(24)].map((_, i) => (
-                  <div
-                    key={`particle-${i}`}
-                    className="absolute animate-energy-flow"
-                    style={{
-                      top: `${Math.random() * 140 - 20}%`,
-                      left: `${Math.random() * 140 - 20}%`,
-                      width: `${Math.random() * 3 + 1}px`,
-                      height: `${Math.random() * 3 + 1}px`,
-                      background: `rgba(var(--color-${
-                        ["primary", "secondary", "accent"][
-                          Math.floor(Math.random() * 3)
-                        ]
-                      }, ${Math.random() * 0.4 + 0.3})`,
-                      borderRadius: "50%",
-                      animationDelay: `${i * -0.2}s`,
-                      animationDuration: `${Math.random() * 3 + 4}s`,
-                    }}
-                  />
-                ))}
-
-                {/* Premium container */}
+                {/* Premium glass container */}
                 <div className="relative w-full h-full rounded-full animate-floating-3d group-hover:pause">
+                  {/* Cosmic wave effect */}
+                  <div className="absolute -inset-3 rounded-full animate-cosmic-wave">
+                    <div className="absolute inset-0 bg-gradient-to-r from-primary-500/30 via-secondary-500/20 to-accent-500/30 blur-xl"></div>
+                  </div>
+
                   {/* Holographic effect container */}
                   <div className="absolute -inset-2 rounded-full premium-glass animate-holographic">
                     <div className="absolute inset-[2px] rounded-full bg-background/40"></div>
@@ -201,7 +234,7 @@ export function AboutSection() {
                   {/* Main image container */}
                   <div className="relative w-full h-full rounded-full overflow-hidden premium-border group-hover:scale-105 transition-transform duration-700">
                     {/* Dynamic light effect */}
-                    <div className="absolute inset-0 bg-gradient-to-tr from-primary-500/0 via-white/10 to-secondary-500/0 mix-blend-overlay"></div>
+                    <div className="absolute inset-0 bg-gradient-to-tr from-primary-500/10 via-white/20 to-secondary-500/10 mix-blend-overlay"></div>
 
                     <img
                       src="https://i.ibb.co.com/1Vm2pHB/Joy-Tarafder.jpg"
@@ -212,20 +245,20 @@ export function AboutSection() {
                     {/* Premium hover effects */}
                     <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-700">
                       {/* Shine sweep */}
-                      <div className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1500 bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
+                      <div className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1500 bg-gradient-to-r from-transparent via-white/40 to-transparent"></div>
 
                       {/* Radial highlight */}
-                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.2),transparent_50%)] opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.3),transparent_50%)] opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
 
                       {/* Edge glow */}
                       <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 premium-shadow"></div>
                     </div>
                   </div>
 
-                  {/* Interactive particle system */}
+                  {/* Interactive particle field */}
                   <div className="absolute inset-0">
-                    {[...Array(12)].map((_, i) => {
-                      const angle = (i * Math.PI * 2) / 12;
+                    {[...Array(16)].map((_, i) => {
+                      const angle = (i * Math.PI * 2) / 16;
                       return (
                         <div
                           key={`orbital-particle-${i}`}
@@ -238,16 +271,16 @@ export function AboutSection() {
                         >
                           {/* Particle core */}
                           <div
-                            className="w-full h-full rounded-full bg-gradient-to-r from-primary-500/60 to-secondary-500/60 blur-[2px] animate-pulse-slow"
-                            style={{ animationDelay: `${i * 0.2}s` }}
+                            className="w-full h-full rounded-full bg-gradient-to-r from-primary-500/70 to-secondary-500/70 blur-[2px] animate-pulse-slow"
+                            style={{ animationDelay: `${i * 0.15}s` }}
                           ></div>
 
                           {/* Particle glow */}
                           <div
-                            className="absolute inset-0 rounded-full bg-white/40 animate-ping"
+                            className="absolute inset-0 rounded-full bg-white/50 animate-ping"
                             style={{
-                              animationDuration: "3s",
-                              animationDelay: `${i * 0.2}s`,
+                              animationDuration: "2.5s",
+                              animationDelay: `${i * 0.15}s`,
                             }}
                           ></div>
                         </div>
@@ -256,10 +289,11 @@ export function AboutSection() {
                   </div>
                 </div>
 
-                {/* Premium hover rings */}
-                <div className="absolute -inset-4 rounded-full border-2 border-primary-500/0 transition-all duration-700 group-hover:border-primary-500/30 group-hover:blur-sm"></div>
-                <div className="absolute -inset-8 rounded-full border-2 border-secondary-500/0 transition-all duration-700 group-hover:border-secondary-500/20 group-hover:blur-sm"></div>
-                <div className="absolute -inset-12 rounded-full border-2 border-accent-500/0 transition-all duration-700 group-hover:border-accent-500/10 group-hover:blur-sm"></div>
+                {/* Premium hover rings with quantum effects */}
+                <div className="absolute -inset-4 rounded-full border-2 border-primary-500/0 transition-all duration-700 group-hover:border-primary-500/40 group-hover:blur-sm"></div>
+                <div className="absolute -inset-8 rounded-full border-2 border-secondary-500/0 transition-all duration-700 group-hover:border-secondary-500/30 group-hover:blur-sm"></div>
+                <div className="absolute -inset-12 rounded-full border-2 border-accent-500/0 transition-all duration-700 group-hover:border-accent-500/20 group-hover:blur-md"></div>
+                <div className="absolute -inset-16 rounded-full border border-white/0 transition-all duration-700 group-hover:border-white/10 group-hover:blur-xl"></div>
               </div>
 
               {/* Stats cards - enhanced */}

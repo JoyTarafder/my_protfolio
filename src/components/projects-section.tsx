@@ -1,6 +1,7 @@
 import { Button, Image } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 
 const projects = [
   {
@@ -233,13 +234,17 @@ export function ProjectsSection() {
             isVisible ? "animate-slide-up stagger-4" : "opacity-0"
           }`}
         >
-          <Button
-            size="lg"
-            className="px-8 bg-[rgba(var(--color-primary),0.9)] text-white hover:bg-[rgba(var(--color-primary),1)] button-3d"
-            endContent={<Icon icon="lucide:arrow-right" className="text-xl" />}
-          >
-            View All Projects
-          </Button>
+          <Link to="/projects">
+            <Button
+              size="lg"
+              className="px-8 bg-[rgba(var(--color-primary),0.9)] text-white hover:bg-[rgba(var(--color-primary),1)] button-3d"
+              endContent={
+                <Icon icon="lucide:arrow-right" className="text-xl" />
+              }
+            >
+              View All Projects
+            </Button>
+          </Link>
         </div>
 
         {/* Project stats - enhanced */}
