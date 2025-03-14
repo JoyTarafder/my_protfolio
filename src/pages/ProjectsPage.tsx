@@ -72,7 +72,6 @@ export function ProjectsPage() {
   const [isVisible, setIsVisible] = useState(false);
   const [filter, setFilter] = useState("all"); // "all", "featured", "web", "mobile"
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [activeProject, setActiveProject] = useState<number | null>(null);
   const [isDarkMode, setIsDarkMode] = useState(() => {
     // Check if user has a preference stored
     const savedTheme = localStorage.getItem("theme");
@@ -285,8 +284,6 @@ export function ProjectsPage() {
                   ? `animate-slide-up stagger-${(index % 3) + 2}`
                   : "opacity-0"
               }`}
-              onMouseEnter={() => setActiveProject(index)}
-              onMouseLeave={() => setActiveProject(null)}
             >
               <div className="premium-card h-full group relative">
                 {/* Animated border effect on hover */}
