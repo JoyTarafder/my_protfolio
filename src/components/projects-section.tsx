@@ -38,7 +38,6 @@ const projects = [
 export function ProjectsSection() {
   const [isVisible, setIsVisible] = useState(false);
   const [filter, setFilter] = useState("all"); // "all", "featured", "web", "mobile"
-  const [hoveredProject,setHoveredProject] = useState<number | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -141,8 +140,6 @@ export function ProjectsSection() {
                   ? `animate-slide-up stagger-${index + 1}`
                   : "opacity-0"
               }`}
-              onMouseEnter={() => setHoveredProject(index)}
-              onMouseLeave={() => setHoveredProject(null)}
             >
               <div className="elegant-card h-full group">
                 {/* Image container */}
