@@ -97,10 +97,10 @@ export function AboutSection() {
             isVisible ? "animate-slide-up" : "opacity-0"
           }`}
         >
-          <h2 className="text-3xl sm:text-4xl font-bold mb-3 sm:mb-4 text-[rgba(var(--color-primary),0.9)]">
+          <h2 className="hidden sm:block text-3xl sm:text-4xl font-bold mb-3 sm:mb-4 text-[rgba(var(--color-primary),0.9)]">
             About Me
           </h2>
-          <div className="w-16 sm:w-20 h-0.5 bg-gradient-to-r from-transparent via-[rgba(var(--color-primary),0.3)] to-transparent rounded-full" />
+          <div className="hidden sm:block w-16 sm:w-20 h-0.5 bg-gradient-to-r from-transparent via-[rgba(var(--color-primary),0.3)] to-transparent rounded-full" />
         </div>
 
         {/* Tab navigation - enhanced */}

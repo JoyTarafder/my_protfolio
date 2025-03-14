@@ -73,7 +73,7 @@ export function HeroSection() {
   return (
     <div
       ref={containerRef}
-      className="relative flex flex-col items-center justify-center min-h-screen text-center px-4 sm:px-6 lg:px-8 overflow-hidden"
+      className="relative hidden md:flex flex-col items-center justify-center min-h-screen text-center px-4 sm:px-6 lg:px-8 overflow-hidden"
       id="home"
     >
       {/* Enhanced background elements */}
