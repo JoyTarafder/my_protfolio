@@ -38,7 +38,7 @@ const projects = [
 export function ProjectsSection() {
   const [isVisible, setIsVisible] = useState(false);
   const [filter, setFilter] = useState("all"); // "all", "featured", "web", "mobile"
-  // const [hoveredProject, setHoveredProject] = useState<number | null>(null);
+  const [setHoveredProject] = useState<number | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
