@@ -72,18 +72,17 @@ export function ProjectsPage() {
   const [isVisible, setIsVisible] = useState(false);
   const [filter, setFilter] = useState("all"); // "all", "featured", "web", "mobile"
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    // Check if user has a preference stored
-    const savedTheme = localStorage.getItem("theme");
-    // Check if browser/OS is set to dark mode
-    const prefersDark = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    ).matches;
-
-    // Return true if saved theme is dark or if no saved theme but OS prefers dark
-    return savedTheme === "dark" || (!savedTheme && prefersDark);
-  });
+  const [isDarkMode, setIsDarkMode] = useState(true); // Always start with dark mode
   const pageRef = useRef<HTMLDivElement>(null);
+  const [stars, setStars] = useState<
+    Array<{
+      x: number;
+      y: number;
+      size: number;
+      opacity: number;
+      speed: number;
+    }>
+  >([]);
 
   // Apply dark mode class to document
   useEffect(() => {
@@ -95,6 +94,25 @@ export function ProjectsPage() {
       localStorage.setItem("theme", "light");
     }
   }, [isDarkMode]);
+
+  // Generate stars for the background
+  useEffect(() => {
+    const generateStars = () => {
+      const newStars = [];
+      for (let i = 0; i < 100; i++) {
+        newStars.push({
+          x: Math.random() * 100,
+          y: Math.random() * 100,
+          size: Math.random() * 2 + 1,
+          opacity: Math.random() * 0.7 + 0.3,
+          speed: Math.random() * 5 + 1,
+        });
+      }
+      setStars(newStars);
+    };
+
+    generateStars();
+  }, []);
 
   useEffect(() => {
     // Set visible immediately since this is a dedicated page
@@ -129,70 +147,125 @@ export function ProjectsPage() {
   return (
     <div
       ref={pageRef}
-      className="min-h-screen py-32 px-4 relative overflow-hidden dark:bg-[#0f172a] transition-colors duration-500"
+      className={`min-h-screen py-32 px-4 relative overflow-hidden transition-colors duration-500 ${
+        isDarkMode
+          ? "bg-black text-white"
+          : "bg-gradient-to-b from-[#f8fafc] to-[#eef2ff] text-gray-800"
+      }`}
     >
       {/* Theme toggle button */}
       <button
         onClick={toggleTheme}
-        className="fixed top-24 right-6 z-50 p-3 rounded-full bg-white dark:bg-[#1e293b] shadow-lg hover:shadow-xl transition-all duration-300 group"
+        className={`fixed top-24 right-6 z-50 p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group ${
+          isDarkMode
+            ? "bg-[#1a1a1a] border border-[#333]"
+            : "bg-white border border-gray-200"
+        }`}
         aria-label="Toggle dark mode"
       >
         {isDarkMode ? (
           <Icon
             icon="lucide:sun"
-            className="text-xl text-[rgba(var(--color-primary),0.9)] group-hover:rotate-45 transition-transform duration-500"
+            className="text-xl text-[#f5f5f5] group-hover:rotate-45 transition-transform duration-500"
           />
         ) : (
           <Icon
             icon="lucide:moon"
-            className="text-xl text-[rgba(var(--color-primary),0.9)] group-hover:rotate-12 transition-transform duration-500"
+            className="text-xl text-[#4f46e5] group-hover:rotate-12 transition-transform duration-500"
           />
         )}
       </button>
 
-      {/* Enhanced background elements */}
-      <div className="absolute inset-0 bg-grid-primary/[0.02] dark:bg-grid-primary/[0.01] -z-1" />
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[rgba(var(--color-primary),0.01)] to-transparent dark:via-[rgba(var(--color-primary),0.02)]" />
+      {/* Star background - only visible in dark mode */}
+      {isDarkMode && (
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {stars.map((star, i) => (
+            <div
+              key={i}
+              className="absolute rounded-full animate-twinkle"
+              style={{
+                width: `${star.size}px`,
+                height: `${star.size}px`,
+                backgroundColor: "#ffffff",
+                left: `${star.x}%`,
+                top: `${star.y}%`,
+                opacity: star.opacity,
+                animationDuration: `${star.speed}s`,
+              }}
+            />
+          ))}
+        </div>
+      )}
 
-      {/* Dynamic background blur that follows mouse */}
+      {/* Cosmic nebula effect - only visible in dark mode */}
+      {isDarkMode && (
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(79,70,229,0.15)_0%,rgba(0,0,0,0)_70%)] opacity-60"></div>
+      )}
+
+      {/* Light mode background patterns */}
+      {!isDarkMode && (
+        <>
+          <div className="absolute inset-0 bg-[radial-gradient(#e0e7ff_1px,transparent_1px)] bg-[size:20px_20px] opacity-50"></div>
+          <div className="absolute inset-0 bg-[conic-gradient(at_top_right,#c7d2fe,#e0e7ff,#f1f5f9,#e0e7ff,#c7d2fe)] opacity-10"></div>
+        </>
+      )}
+
+      {/* Dynamic aurora effect that follows mouse */}
       <div
-        className="absolute w-[40vw] h-[40vw] rounded-full mix-blend-multiply dark:mix-blend-soft-light filter blur-[120px] opacity-[0.03] dark:opacity-[0.04] transition-all duration-700 ease-out"
+        className={`absolute w-[60vw] h-[60vw] rounded-full filter blur-[120px] transition-all duration-1000 ease-out ${
+          isDarkMode
+            ? "mix-blend-screen opacity-20"
+            : "mix-blend-multiply opacity-10"
+        }`}
         style={{
-          background: "rgba(var(--color-primary), 1)",
-          left: `${mousePosition.x / 10}px`,
-          top: `${mousePosition.y / 10}px`,
+          background: isDarkMode
+            ? "radial-gradient(circle, rgba(79,70,229,0.8) 0%, rgba(139,92,246,0.4) 50%, rgba(0,0,0,0) 80%)"
+            : "radial-gradient(circle, rgba(79,70,229,0.4) 0%, rgba(139,92,246,0.2) 50%, rgba(255,255,255,0) 80%)",
+          left: `${mousePosition.x / 5}px`,
+          top: `${mousePosition.y / 5}px`,
           transform: "translate(-50%, -50%)",
         }}
       />
 
-      {/* Animated particles - enhanced for dark mode */}
+      {/* Animated particles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(12)].map((_, i) => (
+        {[...Array(20)].map((_, i) => (
           <div
             key={i}
             className="absolute rounded-full animate-float-particle"
             style={{
-              width: `${Math.random() * 6 + 2}px`,
-              height: `${Math.random() * 6 + 2}px`,
+              width: `${Math.random() * 4 + 1}px`,
+              height: `${Math.random() * 4 + 1}px`,
               background: isDarkMode
-                ? `rgba(var(--color-primary), ${Math.random() * 0.7 + 0.3})`
-                : `rgba(var(--color-primary), ${Math.random() * 0.5 + 0.2})`,
+                ? `rgba(255, 255, 255, ${Math.random() * 0.5 + 0.3})`
+                : `rgba(79, 70, 229, ${Math.random() * 0.3 + 0.1})`,
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
               animationDelay: `${Math.random() * 5}s`,
-              animationDuration: `${Math.random() * 10 + 10}s`,
+              animationDuration: `${Math.random() * 15 + 10}s`,
               boxShadow: isDarkMode
-                ? `0 0 ${
-                    Math.random() * 10 + 5
-                  }px rgba(var(--color-primary), 0.3)`
-                : "none",
+                ? `0 0 ${Math.random() * 10 + 5}px rgba(255, 255, 255, 0.3)`
+                : `0 0 ${Math.random() * 10 + 5}px rgba(79, 70, 229, 0.2)`,
             }}
           />
         ))}
       </div>
 
+      {/* Grid overlay */}
+      <div
+        className={`absolute inset-0 ${
+          isDarkMode
+            ? "bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] opacity-20"
+            : "bg-[linear-gradient(rgba(79,70,229,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(79,70,229,0.05)_1px,transparent_1px)] opacity-30"
+        } bg-[size:40px_40px]`}
+      ></div>
+
       {/* Subtle noise texture */}
-      <div className="absolute inset-0 noise-overlay opacity-10 dark:opacity-20"></div>
+      <div
+        className={`absolute inset-0 noise-overlay ${
+          isDarkMode ? "opacity-[0.15]" : "opacity-[0.05]"
+        }`}
+      ></div>
 
       <div className="max-w-6xl mx-auto relative">
         {/* Header section with enhanced animations */}
@@ -202,22 +275,36 @@ export function ProjectsPage() {
           }`}
         >
           <div className="relative mb-6">
-            <h1 className="text-6xl font-bold mb-4 text-[rgba(var(--color-primary),0.9)] dark:text-[rgba(var(--color-primary),0.95)] relative z-10">
-              My Projects
+            <h1
+              className={`text-6xl font-bold mb-4 relative z-10 ${
+                isDarkMode ? "text-white" : "text-gray-800"
+              }`}
+            >
+              My <span className="text-[#4f46e5]">Projects</span>
             </h1>
-            <div className="absolute -inset-4 bg-[rgba(var(--color-primary),0.03)] dark:bg-[rgba(var(--color-primary),0.06)] rounded-full blur-xl -z-1 opacity-70"></div>
+            <div
+              className={`absolute -inset-4 rounded-full blur-xl -z-1 opacity-70 animate-pulse-slow ${
+                isDarkMode
+                  ? "bg-[rgba(79,70,229,0.1)]"
+                  : "bg-[rgba(79,70,229,0.08)]"
+              }`}
+            ></div>
           </div>
 
-          <div className="w-32 h-1 bg-gradient-to-r from-transparent via-[rgba(var(--color-primary),0.5)] to-transparent rounded-full mb-8" />
+          <div className="w-32 h-1 bg-gradient-to-r from-transparent via-[#4f46e5] to-transparent rounded-full mb-8" />
 
-          <p className="mt-4 text-xl text-default-600 dark:text-gray-300 max-w-2xl leading-relaxed">
+          <p
+            className={`mt-4 text-xl max-w-2xl leading-relaxed ${
+              isDarkMode ? "text-gray-300" : "text-gray-600"
+            }`}
+          >
             A comprehensive collection of my work showcasing my skills and
             experience in
-            <span className="text-[rgba(var(--color-primary),0.9)] dark:text-[rgba(var(--color-primary),1)] font-medium mx-1">
+            <span className="text-[#4f46e5] font-medium mx-1">
               web development
             </span>
             and
-            <span className="text-[rgba(var(--color-primary),0.9)] dark:text-[rgba(var(--color-primary),1)] font-medium mx-1">
+            <span className="text-[#4f46e5] font-medium mx-1">
               UI/UX design
             </span>
           </p>
@@ -226,7 +313,11 @@ export function ProjectsPage() {
           <Link to="/" className="mt-10 group">
             <Button
               variant="light"
-              className="text-[rgba(var(--color-primary),0.9)] dark:text-[rgba(var(--color-primary),1)] px-6 py-6 relative overflow-hidden group-hover:shadow-md transition-all duration-300 dark:bg-[rgba(var(--color-primary),0.1)] dark:backdrop-blur-sm"
+              className={`px-6 py-6 relative overflow-hidden group-hover:shadow-md transition-all duration-300 ${
+                isDarkMode
+                  ? "text-white bg-[rgba(79,70,229,0.2)] border border-[rgba(79,70,229,0.3)]"
+                  : "text-[#4f46e5] bg-white border border-[rgba(79,70,229,0.2)]"
+              } backdrop-blur-sm`}
               startContent={
                 <Icon
                   icon="lucide:arrow-left"
@@ -235,7 +326,13 @@ export function ProjectsPage() {
               }
             >
               <span className="relative z-10">Back to Home</span>
-              <div className="absolute inset-0 bg-[rgba(var(--color-primary),0.05)] dark:bg-[rgba(var(--color-primary),0.15)] scale-x-0 group-hover:scale-x-100 origin-right transition-transform duration-500"></div>
+              <div
+                className={`absolute inset-0 scale-x-0 group-hover:scale-x-100 origin-right transition-transform duration-500 ${
+                  isDarkMode
+                    ? "bg-[rgba(79,70,229,0.3)]"
+                    : "bg-[rgba(79,70,229,0.1)]"
+                }`}
+              ></div>
             </Button>
           </Link>
         </div>
@@ -246,7 +343,13 @@ export function ProjectsPage() {
             isVisible ? "animate-slide-up stagger-1" : "opacity-0"
           }`}
         >
-          <div className="flex p-1.5 bg-[rgba(var(--color-primary),0.04)] dark:bg-[rgba(var(--color-primary),0.08)] rounded-full shadow-sm backdrop-blur-sm border border-[rgba(var(--color-primary),0.08)] dark:border-[rgba(var(--color-primary),0.15)]">
+          <div
+            className={`flex p-1.5 rounded-full shadow-lg backdrop-blur-sm ${
+              isDarkMode
+                ? "bg-[rgba(20,20,20,0.6)] border border-[rgba(79,70,229,0.2)]"
+                : "bg-white/80 border border-[rgba(79,70,229,0.1)]"
+            }`}
+          >
             {[
               { id: "all", label: "All Projects", icon: "lucide:grid" },
               { id: "featured", label: "Featured", icon: "lucide:star" },
@@ -258,8 +361,10 @@ export function ProjectsPage() {
                 onClick={() => setFilter(category.id)}
                 className={`flex items-center px-6 py-3 rounded-full text-sm font-medium transition-all duration-500 ${
                   filter === category.id
-                    ? "bg-[rgba(var(--color-primary),0.9)] text-white shadow-md transform scale-105"
-                    : "text-default-600 dark:text-gray-300 hover:text-[rgba(var(--color-primary),0.9)] dark:hover:text-[rgba(var(--color-primary),1)] hover:bg-[rgba(var(--color-primary),0.03)] dark:hover:bg-[rgba(var(--color-primary),0.1)]"
+                    ? "bg-[#4f46e5] text-white shadow-md transform scale-105"
+                    : isDarkMode
+                    ? "text-gray-300 hover:text-white hover:bg-[rgba(79,70,229,0.2)]"
+                    : "text-gray-600 hover:text-[#4f46e5] hover:bg-[rgba(79,70,229,0.05)]"
                 }`}
               >
                 <Icon
@@ -285,13 +390,19 @@ export function ProjectsPage() {
                   : "opacity-0"
               }`}
             >
-              <div className="premium-card h-full group relative">
+              <div className="h-full group relative">
                 {/* Animated border effect on hover */}
-                <div className="absolute -inset-0.5 bg-gradient-to-r from-[rgba(var(--color-primary),0.2)] to-[rgba(var(--color-secondary),0.2)] dark:from-[rgba(var(--color-primary),0.4)] dark:to-[rgba(var(--color-secondary),0.4)] rounded-xl opacity-0 group-hover:opacity-100 blur-sm transition-opacity duration-300"></div>
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-[#4f46e5] to-[#8b5cf6] rounded-xl opacity-0 group-hover:opacity-100 blur-sm transition-opacity duration-300"></div>
 
-                <div className="relative bg-[rgba(var(--color-card),1)] dark:bg-[#1e293b] rounded-xl p-6 h-full flex flex-col border border-transparent dark:border-[rgba(var(--color-primary),0.1)]">
+                <div
+                  className={`relative rounded-xl p-6 h-full flex flex-col ${
+                    isDarkMode
+                      ? "bg-[#121212] border border-[#333]"
+                      : "bg-white border border-gray-100 shadow-sm"
+                  }`}
+                >
                   {/* Image container with enhanced hover effects */}
-                  <div className="relative overflow-hidden h-56 rounded-lg mb-6 group-hover:shadow-lg dark:group-hover:shadow-[0_0_15px_rgba(var(--color-primary),0.15)] transition-all duration-500">
+                  <div className="relative overflow-hidden h-56 rounded-lg mb-6 group-hover:shadow-lg group-hover:shadow-[#4f46e5]/20 transition-all duration-500">
                     <Image
                       src={project.image}
                       alt={project.title}
@@ -299,7 +410,7 @@ export function ProjectsPage() {
                     />
 
                     {/* Overlay on hover - enhanced with better animations */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[rgba(var(--color-dark),0.8)] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
                       <div className="text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
                         <p className="text-white/90 mb-4 line-clamp-3">
                           {project.description}
@@ -307,7 +418,7 @@ export function ProjectsPage() {
                         <div className="flex gap-3">
                           <Button
                             size="sm"
-                            className="bg-white text-[rgba(var(--color-primary),0.9)] border-0 hover-lift"
+                            className="bg-white text-[#4f46e5] border-0 hover-lift"
                             endContent={<Icon icon="lucide:external-link" />}
                           >
                             Demo
@@ -323,9 +434,9 @@ export function ProjectsPage() {
                       </div>
                     </div>
 
-                    {/* Featured badge - enhanced for dark mode */}
+                    {/* Featured badge */}
                     {project.featured && (
-                      <div className="absolute top-4 right-4 featured-badge dark:bg-[rgba(var(--color-primary),1)] dark:shadow-[0_0_10px_rgba(var(--color-primary),0.3)]">
+                      <div className="absolute top-4 right-4 bg-[#4f46e5] text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
                         <Icon
                           icon="lucide:star"
                           className="inline-block mr-1 text-xs"
@@ -335,35 +446,55 @@ export function ProjectsPage() {
                     )}
 
                     {/* Shine effect on hover */}
-                    <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/30 to-white/0 dark:via-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 -translate-x-full group-hover:translate-x-full"></div>
+                    <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/30 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 -translate-x-full group-hover:translate-x-full"></div>
                   </div>
 
-                  {/* Content - enhanced with better typography and spacing */}
+                  {/* Content */}
                   <div>
-                    <h3 className="text-xl font-semibold mb-3 text-[rgba(var(--color-primary),0.9)] dark:text-[rgba(var(--color-primary),1)] group-hover:text-[rgba(var(--color-primary),1)] transition-colors duration-300">
+                    <h3
+                      className={`text-xl font-semibold mb-3 transition-colors duration-300 ${
+                        isDarkMode
+                          ? "text-white group-hover:text-[#4f46e5]"
+                          : "text-gray-800 group-hover:text-[#4f46e5]"
+                      }`}
+                    >
                       {project.title}
                     </h3>
-                    <p className="text-default-500 dark:text-gray-400 mb-5 line-clamp-2 leading-relaxed">
+                    <p
+                      className={`mb-5 line-clamp-2 leading-relaxed ${
+                        isDarkMode ? "text-gray-400" : "text-gray-500"
+                      }`}
+                    >
                       {project.description}
                     </p>
 
-                    {/* Tags - enhanced with better styling for dark mode */}
+                    {/* Tags */}
                     <div className="flex flex-wrap gap-2 mb-6">
                       {project.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="project-tag group/tag dark:bg-[rgba(var(--color-primary),0.15)] dark:text-[rgba(var(--color-primary),1)]"
+                          className={`px-3 py-1 text-xs font-medium rounded-full text-[#4f46e5] group/tag ${
+                            isDarkMode
+                              ? "bg-[rgba(79,70,229,0.1)]"
+                              : "bg-[rgba(79,70,229,0.05)]"
+                          }`}
                         >
                           <span className="relative z-10">{tag}</span>
-                          <div className="absolute inset-0 bg-[rgba(var(--color-primary),0.1)] dark:bg-[rgba(var(--color-primary),0.25)] scale-x-0 group-hover/tag:scale-x-100 origin-left transition-transform duration-300 rounded-full"></div>
+                          <div
+                            className={`absolute inset-0 scale-x-0 group-hover/tag:scale-x-100 origin-left transition-transform duration-300 rounded-full ${
+                              isDarkMode
+                                ? "bg-[rgba(79,70,229,0.2)]"
+                                : "bg-[rgba(79,70,229,0.1)]"
+                            }`}
+                          ></div>
                         </span>
                       ))}
                     </div>
 
-                    {/* Buttons - enhanced with better hover effects for dark mode */}
+                    {/* Buttons */}
                     <div className="flex gap-3 w-full mt-auto">
                       <Button
-                        className="flex-1 bg-[rgba(var(--color-primary),0.9)] dark:bg-[rgba(var(--color-primary),0.8)] text-white hover:bg-[rgba(var(--color-primary),1)] dark:hover:bg-[rgba(var(--color-primary),0.9)] hover-lift relative overflow-hidden group/btn"
+                        className="flex-1 bg-[#4f46e5] text-white hover:bg-[#4338ca] hover-lift relative overflow-hidden group/btn"
                         endContent={
                           <Icon
                             icon="lucide:external-link"
@@ -375,7 +506,11 @@ export function ProjectsPage() {
                         <div className="absolute inset-0 bg-white/10 scale-x-0 group-hover/btn:scale-x-100 origin-left transition-transform duration-500"></div>
                       </Button>
                       <Button
-                        className="flex-1 bg-transparent border border-[rgba(var(--color-primary),0.2)] dark:border-[rgba(var(--color-primary),0.3)] text-[rgba(var(--color-primary),0.9)] dark:text-[rgba(var(--color-primary),1)] hover:bg-[rgba(var(--color-primary),0.04)] dark:hover:bg-[rgba(var(--color-primary),0.15)] hover-lift relative overflow-hidden group/btn"
+                        className={`flex-1 bg-transparent hover-lift relative overflow-hidden group/btn ${
+                          isDarkMode
+                            ? "border border-[#333] text-white hover:bg-[rgba(79,70,229,0.1)]"
+                            : "border border-gray-200 text-gray-700 hover:bg-[rgba(79,70,229,0.05)]"
+                        }`}
                         variant="bordered"
                         endContent={
                           <Icon
@@ -385,7 +520,13 @@ export function ProjectsPage() {
                         }
                       >
                         <span className="relative z-10">View Code</span>
-                        <div className="absolute inset-0 bg-[rgba(var(--color-primary),0.05)] dark:bg-[rgba(var(--color-primary),0.1)] scale-x-0 group-hover/btn:scale-x-100 origin-left transition-transform duration-500"></div>
+                        <div
+                          className={`absolute inset-0 scale-x-0 group-hover/btn:scale-x-100 origin-left transition-transform duration-500 ${
+                            isDarkMode
+                              ? "bg-[rgba(79,70,229,0.05)]"
+                              : "bg-[rgba(79,70,229,0.03)]"
+                          }`}
+                        ></div>
                       </Button>
                     </div>
                   </div>
@@ -395,65 +536,49 @@ export function ProjectsPage() {
           ))}
         </div>
 
-        {/* Project stats section - enhanced for dark mode */}
-        {/* <div
-          className={`mt-24 grid grid-cols-1 md:grid-cols-4 gap-6 ${
-            isVisible ? "animate-slide-up stagger-5" : "opacity-0"
-          }`}
-        >
-          {[
-            {
-              label: "Projects Completed",
-              value: "15+",
-              icon: "lucide:check-circle",
-            },
-            { label: "Happy Clients", value: "10+", icon: "lucide:users" },
-            { label: "Hours of Work", value: "500+", icon: "lucide:clock" },
-            { label: "Technologies Used", value: "12+", icon: "lucide:code" },
-          ].map((stat, index) => (
-            <div
-              key={stat.label}
-              className="frosted-glass p-6 rounded-xl text-center hover-lift transition-all duration-300 border border-[rgba(var(--color-primary),0.08)] dark:border-[rgba(var(--color-primary),0.15)] dark:bg-[rgba(15,23,42,0.6)] group"
-            >
-              <div className="w-14 h-14 rounded-full bg-[rgba(var(--color-primary),0.08)] dark:bg-[rgba(var(--color-primary),0.15)] flex items-center justify-center mx-auto mb-4 group-hover:bg-[rgba(var(--color-primary),0.12)] dark:group-hover:bg-[rgba(var(--color-primary),0.25)] transition-colors duration-300">
-                <Icon
-                  icon={stat.icon}
-                  className="text-2xl text-[rgba(var(--color-primary),0.9)] dark:text-[rgba(var(--color-primary),1)]"
-                />
-              </div>
-              <div className="text-3xl font-bold text-[rgba(var(--color-primary),0.9)] dark:text-[rgba(var(--color-primary),1)] mb-2 group-hover:scale-110 transition-transform duration-300">
-                {stat.value}
-              </div>
-              <div className="text-default-500 dark:text-gray-400 text-sm">
-                {stat.label}
-              </div>
-            </div>
-          ))}
-        </div> */}
-
-        {/* Call to action section - enhanced for dark mode */}
+        {/* Call to action section */}
         <div
           className={`mt-24 ${
             isVisible ? "animate-slide-up stagger-6" : "opacity-0"
           }`}
         >
-          <div className="frosted-glass rounded-xl p-10 text-center relative overflow-hidden border border-[rgba(var(--color-primary),0.08)] dark:border-[rgba(var(--color-primary),0.2)] dark:bg-[rgba(15,23,42,0.6)] group hover-lift">
-            <div className="absolute inset-0 bg-gradient-to-r from-[rgba(var(--color-primary),0.02)] to-transparent dark:from-[rgba(var(--color-primary),0.05)]"></div>
+          <div
+            className={`rounded-xl p-10 text-center relative overflow-hidden group hover-lift ${
+              isDarkMode
+                ? "border border-[#333] bg-[rgba(18,18,18,0.6)]"
+                : "border border-gray-100 bg-white/80 shadow-md"
+            }`}
+          >
+            <div
+              className={`absolute inset-0 ${
+                isDarkMode
+                  ? "bg-gradient-to-r from-[rgba(79,70,229,0.05)] to-transparent"
+                  : "bg-gradient-to-r from-[rgba(79,70,229,0.02)] to-transparent"
+              }`}
+            ></div>
 
             {/* Decorative elements */}
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[rgba(var(--color-primary),0.3)] to-transparent dark:via-[rgba(var(--color-primary),0.5)]"></div>
-            <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[rgba(var(--color-primary),0.3)] to-transparent dark:via-[rgba(var(--color-primary),0.5)]"></div>
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#4f46e5] to-transparent"></div>
+            <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#4f46e5] to-transparent"></div>
 
             {/* Animated corner accents */}
-            <div className="absolute top-0 left-0 w-10 h-10 border-t-2 border-l-2 border-[rgba(var(--color-primary),0.3)] dark:border-[rgba(var(--color-primary),0.5)] rounded-tl-lg"></div>
-            <div className="absolute top-0 right-0 w-10 h-10 border-t-2 border-r-2 border-[rgba(var(--color-primary),0.3)] dark:border-[rgba(var(--color-primary),0.5)] rounded-tr-lg"></div>
-            <div className="absolute bottom-0 left-0 w-10 h-10 border-b-2 border-l-2 border-[rgba(var(--color-primary),0.3)] dark:border-[rgba(var(--color-primary),0.5)] rounded-bl-lg"></div>
-            <div className="absolute bottom-0 right-0 w-10 h-10 border-b-2 border-r-2 border-[rgba(var(--color-primary),0.3)] dark:border-[rgba(var(--color-primary),0.5)] rounded-br-lg"></div>
+            <div className="absolute top-0 left-0 w-10 h-10 border-t-2 border-l-2 border-[#4f46e5] rounded-tl-lg"></div>
+            <div className="absolute top-0 right-0 w-10 h-10 border-t-2 border-r-2 border-[#4f46e5] rounded-tr-lg"></div>
+            <div className="absolute bottom-0 left-0 w-10 h-10 border-b-2 border-l-2 border-[#4f46e5] rounded-bl-lg"></div>
+            <div className="absolute bottom-0 right-0 w-10 h-10 border-b-2 border-r-2 border-[#4f46e5] rounded-br-lg"></div>
 
-            <h3 className="text-2xl font-bold text-[rgba(var(--color-primary),0.9)] dark:text-[rgba(var(--color-primary),1)] mb-4 group-hover:scale-105 transition-transform duration-300">
-              Ready to Start a Project?
+            <h3
+              className={`text-2xl font-bold mb-4 group-hover:scale-105 transition-transform duration-300 ${
+                isDarkMode ? "text-white" : "text-gray-800"
+              }`}
+            >
+              Ready to Start a <span className="text-[#4f46e5]">Project</span>?
             </h3>
-            <p className="text-lg text-default-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
+            <p
+              className={`text-lg mb-8 max-w-2xl mx-auto ${
+                isDarkMode ? "text-gray-300" : "text-gray-600"
+              }`}
+            >
               I'm currently available for freelance work. If you have a project
               that needs some creative touch, I'd love to hear about it.
             </p>
@@ -463,7 +588,7 @@ export function ProjectsPage() {
             >
               <Button
                 size="lg"
-                className="px-8 py-6 text-lg bg-[rgba(var(--color-primary),0.9)] dark:bg-[rgba(var(--color-primary),0.8)] text-white hover:bg-[rgba(var(--color-primary),1)] dark:hover:bg-[rgba(var(--color-primary),0.9)] button-3d relative overflow-hidden group/btn dark:shadow-[0_4px_20px_rgba(var(--color-primary),0.3)]"
+                className="px-8 py-6 text-lg bg-[#4f46e5] text-white hover:bg-[#4338ca] button-3d relative overflow-hidden group/btn shadow-[0_4px_20px_rgba(79,70,229,0.3)]"
                 endContent={
                   <Icon
                     icon="lucide:send"
