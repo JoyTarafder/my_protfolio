@@ -17,12 +17,12 @@ const socialLinks = [
   { icon: "lucide:instagram", url: "#", label: "Instagram" },
 ];
 
-const skills = [
-  // { name: "React", level: 90, icon: "logos:react" },
-  // { name: "JavaScript", level: 85, icon: "logos:javascript" },
-  // { name: "TailwindCSS", level: 80, icon: "logos:tailwindcss-icon" },
-  // { name: "Node.js", level: 75, icon: "logos:nodejs-icon" },
-];
+// const skills = [
+//   // { name: "React", level: 90, icon: "logos:react" },
+//   // { name: "JavaScript", level: 85, icon: "logos:javascript" },
+//   // { name: "TailwindCSS", level: 80, icon: "logos:tailwindcss-icon" },
+//   // { name: "Node.js", level: 75, icon: "logos:nodejs-icon" },
+// ];
 
 const experiences = [
   {
@@ -312,10 +312,10 @@ export function AboutSection() {
                 </p>
 
                 {/* Skills with progress bars and icons - enhanced */}
-                <div className="mt-8">
-                  {/* <h3 className="text-xl font-semibold mb-6 text-[rgba(var(--color-primary),0.9)]">
+                {/* <div className="mt-8">
+                  <h3 className="text-xl font-semibold mb-6 text-[rgba(var(--color-primary),0.9)]">
                     My Skills
-                  </h3> */}
+                  </h3>
                   <div className="space-y-6">
                     {skills.map((skill, index) => (
                       <div
@@ -348,7 +348,7 @@ export function AboutSection() {
                       </div>
                     ))}
                   </div>
-                </div>
+                </div> */}
 
                 <div className="flex flex-wrap gap-3 mt-8">
                   {[

@@ -38,7 +38,7 @@ const projects = [
 export function ProjectsSection() {
   const [isVisible, setIsVisible] = useState(false);
   const [filter, setFilter] = useState("all"); // "all", "featured", "web", "mobile"
-  const [hoveredProject, setHoveredProject] = useState<number | null>(null);
+  // const [hoveredProject, setHoveredProject] = useState<number | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -246,7 +246,7 @@ export function ProjectsSection() {
         </div>
 
         {/* Project stats - enhanced */}
-        <div
+        {/* <div
           className={`grid grid-cols-2 md:grid-cols-4 gap-6 mt-24 ${
             isVisible ? "animate-slide-up stagger-5" : "opacity-0"
           }`}
@@ -289,7 +289,7 @@ export function ProjectsSection() {
               <div className="text-default-500 text-sm">{stat.label}</div>
             </div>
           ))}
-        </div>
+        </div> */}
 
         {/* Call to action - enhanced */}
         <div
