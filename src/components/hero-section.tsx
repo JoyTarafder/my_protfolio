@@ -73,7 +73,8 @@ export function HeroSection() {
   return (
     <div
       ref={containerRef}
-      className="relative flex flex-col items-center justify-center min-h-screen text-center px-4 overflow-hidden"
+      className="relative flex flex-col items-center justify-center min-h-screen text-center px-4 sm:px-6 lg:px-8 overflow-hidden"
+      id="home"
     >
       {/* Enhanced background elements */}
       <div className="absolute inset-0 bg-gradient-to-br from-[rgba(var(--color-primary),0.01)] via-transparent to-[rgba(var(--color-secondary),0.01)]" />
@@ -87,7 +88,7 @@ export function HeroSection() {
 
       {/* Animated background shapes with parallax effect - refined */}
       <div
-        className="absolute w-96 h-96 rounded-full mix-blend-multiply filter blur-[120px] opacity-[0.02] animate-float"
+        className="absolute w-64 sm:w-96 h-64 sm:h-96 rounded-full mix-blend-multiply filter blur-[120px] opacity-[0.02] animate-float"
         style={{
           top: `calc(20% + ${movement1.y}px)`,
           left: `calc(20% + ${movement1.x}px)`,
@@ -95,7 +96,7 @@ export function HeroSection() {
         }}
       />
       <div
-        className="absolute w-96 h-96 rounded-full mix-blend-multiply filter blur-[120px] opacity-[0.02] animate-float stagger-3"
+        className="absolute w-64 sm:w-96 h-64 sm:h-96 rounded-full mix-blend-multiply filter blur-[120px] opacity-[0.02] animate-float stagger-3"
         style={{
           bottom: `calc(20% + ${movement2.y}px)`,
           right: `calc(20% + ${movement2.x}px)`,
@@ -130,23 +131,23 @@ export function HeroSection() {
 
       {/* Content */}
       <div
-        className={`relative z-10 max-w-4xl ${
+        className={`relative z-10 max-w-4xl mx-auto ${
           isVisible ? "animate-elegant-reveal" : "opacity-0"
         }`}
       >
-        <div className="mb-8 inline-block animate-slide-up stagger-1">
-          <span className="px-5 py-2 rounded-full bg-[rgba(var(--color-primary),0.06)] text-[rgba(var(--color-primary),0.9)] text-sm font-medium hover-scale">
+        <div className="mb-6 sm:mb-8 inline-block animate-slide-up stagger-1">
+          <span className="px-4 sm:px-5 py-1.5 sm:py-2 rounded-full bg-[rgba(var(--color-primary),0.06)] text-[rgba(var(--color-primary),0.9)] text-sm font-medium hover-scale">
             <Icon icon="lucide:sparkles" className="inline-block mr-2" />
             Available for Work
           </span>
         </div>
 
-        <h1 className="text-6xl md:text-8xl font-bold mb-6 text-[rgba(var(--color-primary),0.9)] animate-slide-up stagger-2">
+        <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold mb-4 sm:mb-6 text-[rgba(var(--color-primary),0.9)] animate-slide-up stagger-2">
           Hi, This is <span className="gradient-text">Joy Tarafder</span>
         </h1>
 
-        <div className="relative mb-12 animate-slide-up stagger-3">
-          <p className="text-xl md:text-2xl text-default-600 leading-relaxed max-w-2xl mx-auto">
+        <div className="relative mb-8 sm:mb-12 animate-slide-up stagger-3">
+          <p className="text-lg sm:text-xl md:text-2xl text-default-600 leading-relaxed max-w-2xl mx-auto px-4">
             A passionate frontend developer crafting
             <span className="text-[rgba(var(--color-primary),0.9)] font-semibold mx-1">
               beautiful
@@ -159,11 +160,11 @@ export function HeroSection() {
           </p>
 
           {/* Animated underline - enhanced */}
-          <div className="w-24 h-0.5 bg-gradient-to-r from-transparent via-[rgba(var(--color-primary),0.3)] to-transparent rounded-full mx-auto mt-6"></div>
+          <div className="w-16 sm:w-24 h-0.5 bg-gradient-to-r from-transparent via-[rgba(var(--color-primary),0.3)] to-transparent rounded-full mx-auto mt-4 sm:mt-6"></div>
         </div>
 
         {/* Animated tech stack marquee - enhanced */}
-        <div className="w-full overflow-hidden mb-12 animate-slide-up stagger-3">
+        <div className="w-full overflow-hidden mb-8 sm:mb-12 animate-slide-up stagger-3">
           <div className="flex animate-marquee">
             {[
               "React",
@@ -187,7 +188,7 @@ export function HeroSection() {
             ].map((tech, index) => (
               <span
                 key={`${tech}-${index}`}
-                className="mx-4 px-4 py-2 rounded-full bg-[rgba(var(--color-primary),0.04)] text-default-600 text-sm font-medium whitespace-nowrap hover-scale"
+                className="mx-2 sm:mx-4 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-[rgba(var(--color-primary),0.04)] text-default-600 text-xs sm:text-sm font-medium whitespace-nowrap hover-scale"
               >
                 {tech}
               </span>
@@ -195,10 +196,10 @@ export function HeroSection() {
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-slide-up stagger-4">
+        <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center animate-slide-up stagger-4 px-4">
           <Button
             size="lg"
-            className="w-full sm:w-auto text-lg h-14 px-8 bg-[rgba(var(--color-primary),0.9)] text-white hover:bg-[rgba(var(--color-primary),1)] button-3d"
+            className="w-full sm:w-auto text-base sm:text-lg h-12 sm:h-14 px-6 sm:px-8 bg-[rgba(var(--color-primary),0.9)] text-white hover:bg-[rgba(var(--color-primary),1)] button-3d"
             endContent={<Icon icon="lucide:arrow-right" className="text-xl" />}
             onClick={handleViewWork}
           >
@@ -207,7 +208,7 @@ export function HeroSection() {
           <Button
             variant="bordered"
             size="lg"
-            className="w-full sm:w-auto text-lg h-14 px-8 border-[rgba(var(--color-primary),0.2)] text-[rgba(var(--color-primary),0.9)] hover:bg-[rgba(var(--color-primary),0.04)] elegant-button"
+            className="w-full sm:w-auto text-base sm:text-lg h-12 sm:h-14 px-6 sm:px-8 border-[rgba(var(--color-primary),0.2)] text-[rgba(var(--color-primary),0.9)] hover:bg-[rgba(var(--color-primary),0.04)] elegant-button"
             endContent={<Icon icon="lucide:download" className="text-xl" />}
             onClick={handleDownloadCV}
           >
@@ -216,7 +217,7 @@ export function HeroSection() {
         </div>
 
         {/* Social media icons - enhanced */}
-        <div className="mt-16 flex justify-center gap-6 animate-slide-up stagger-5">
+        <div className="mt-12 sm:mt-16 flex justify-center gap-4 sm:gap-6 animate-slide-up stagger-5">
           {[
             { icon: "lucide:github", url: "https://github.com/JoyTarafder" },
             {
@@ -239,20 +240,17 @@ export function HeroSection() {
                 social.icon.split(":")[1].slice(1)
               }
             >
-              <div className="w-10 h-10 rounded-full bg-[rgba(var(--color-primary),0.04)] flex items-center justify-center hover:bg-[rgba(var(--color-primary),0.08)] transition-colors duration-300">
-                <Icon icon={social.icon} className="text-xl" />
+              <div className="w-8 sm:w-10 h-8 sm:h-10 rounded-full bg-[rgba(var(--color-primary),0.04)] flex items-center justify-center hover:bg-[rgba(var(--color-primary),0.08)] transition-colors duration-300">
+                <Icon icon={social.icon} className="text-lg sm:text-xl" />
               </div>
             </a>
           ))}
         </div>
 
         {/* Scroll indicator - enhanced */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <div className="p-3 rounded-full bg-[rgba(var(--color-primary),0.04)] hover-scale">
-            <Icon
-              icon="lucide:chevrons-down"
-              className="text-3xl text-[rgba(var(--color-primary),0.5)]"
-            />
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce hidden sm:block">
+          <div className="w-6 h-10 rounded-full border-2 border-[rgba(var(--color-primary),0.2)] flex items-start justify-center p-1">
+            <div className="w-1.5 h-2.5 rounded-full bg-[rgba(var(--color-primary),0.6)]"></div>
           </div>
         </div>
       </div>

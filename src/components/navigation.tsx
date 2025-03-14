@@ -5,6 +5,9 @@ import {
   NavbarBrand,
   NavbarContent,
   NavbarItem,
+  NavbarMenu,
+  NavbarMenuItem,
+  NavbarMenuToggle,
   Link as UILink,
 } from "@nextui-org/react";
 import { useEffect, useState } from "react";
@@ -15,6 +18,7 @@ export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   const isHomePage = location.pathname === "/";
 
@@ -52,6 +56,18 @@ export function Navigation() {
     };
   }, [isHomePage]);
 
+  const menuItems = isHomePage
+    ? [
+        { href: "#about", label: "About", icon: "lucide:user" },
+        { href: "#skills", label: "Skills", icon: "lucide:code" },
+        { href: "#projects", label: "Projects", icon: "lucide:folder" },
+        { href: "#contact", label: "Contact", icon: "lucide:mail" },
+      ]
+    : [
+        { to: "/", label: "Back to Home", icon: "lucide:home" },
+        { to: "/projects", label: "Projects", icon: "lucide:folder" },
+      ];
+
   return (
     <Navbar
       maxWidth="full"
@@ -61,11 +77,18 @@ export function Navigation() {
           ? "bg-background/60 backdrop-blur-xl shadow-lg border-b border-primary/10"
           : "bg-transparent"
       }`}
+      isMenuOpen={isMenuOpen}
+      onMenuOpenChange={setIsMenuOpen}
     >
+      <NavbarContent className="sm:hidden" justify="start">
+        <NavbarMenuToggle />
+      </NavbarContent>
+
       <NavbarBrand>
         <RouterLink
           to="/"
           className="flex items-center gap-3 hover-scale group relative"
+          onClick={() => setIsMenuOpen(false)}
         >
           <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-primary-500 via-secondary-500 to-primary-500 p-[2px] animate-morph-gradient overflow-hidden">
             <div className="w-full h-full rounded-xl bg-background flex items-center justify-center relative overflow-hidden">
@@ -85,82 +108,79 @@ export function Navigation() {
       </NavbarBrand>
 
       <NavbarContent className="hidden sm:flex gap-6" justify="center">
-        {isHomePage ? (
-          // Home page navigation with hash links
-          [
-            { href: "#about", label: "About", icon: "lucide:user" },
-            { href: "#skills", label: "Skills", icon: "lucide:code" },
-            { href: "#projects", label: "Projects", icon: "lucide:folder" },
-          ].map((item) => (
-            <NavbarItem key={item.href} className="relative group">
-              <UILink
-                href={item.href}
-                className={`relative px-4 py-2 transition-all duration-300 flex items-center gap-2 hover:text-primary ${
-                  activeSection === item.href.slice(1)
-                    ? "text-primary"
-                    : "text-foreground/70"
-                }`}
-              >
-                <Icon
-                  icon={item.icon}
-                  className={`text-lg transition-transform duration-300 group-hover:scale-110 ${
-                    activeSection === item.href.slice(1) ? "animate-pulse" : ""
-                  }`}
-                />
-                {item.label}
-                <span
-                  className={`absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-primary-500 to-secondary-500 transform origin-left transition-transform duration-300 ${
+        {isHomePage
+          ? menuItems.slice(0, -1).map((item) => (
+              <NavbarItem key={item.href} className="relative group">
+                <UILink
+                  href={item.href}
+                  className={`relative px-4 py-2 transition-all duration-300 flex items-center gap-2 hover:text-primary ${
                     activeSection === item.href.slice(1)
-                      ? "scale-x-100"
-                      : "scale-x-0"
-                  } group-hover:scale-x-100`}
-                ></span>
-              </UILink>
-              <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-primary/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            </NavbarItem>
-          ))
-        ) : (
-          // Projects page navigation
-          <NavbarItem className="relative group">
-            <RouterLink
-              to="/projects"
-              className={`relative px-4 py-2 transition-all duration-300 flex items-center gap-2 hover:text-primary ${
-                location.pathname === "/projects"
-                  ? "text-primary"
-                  : "text-foreground/70"
-              }`}
-            >
-              <Icon
-                icon="lucide:folder"
-                className={`text-lg transition-transform duration-300 group-hover:scale-110 ${
-                  location.pathname === "/projects" ? "animate-pulse" : ""
-                }`}
-              />
-              Projects
-              <span
-                className={`absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-primary-500 to-secondary-500 transform origin-left transition-transform duration-300 ${
-                  location.pathname === "/projects"
-                    ? "scale-x-100"
-                    : "scale-x-0"
-                } group-hover:scale-x-100`}
-              ></span>
-            </RouterLink>
-            <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-primary/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          </NavbarItem>
-        )}
+                      ? "text-primary"
+                      : "text-foreground/70"
+                  }`}
+                >
+                  <Icon
+                    icon={item.icon}
+                    className={`text-lg transition-transform duration-300 group-hover:scale-110 ${
+                      activeSection === item.href.slice(1)
+                        ? "animate-pulse"
+                        : ""
+                    }`}
+                  />
+                  {item.label}
+                  <span
+                    className={`absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-primary-500 to-secondary-500 transform origin-left transition-transform duration-300 ${
+                      activeSection === item.href.slice(1)
+                        ? "scale-x-100"
+                        : "scale-x-0"
+                    } group-hover:scale-x-100`}
+                  ></span>
+                </UILink>
+                <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-primary/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </NavbarItem>
+            ))
+          : menuItems.slice(1).map((item) => (
+              <NavbarItem key={item.to} className="relative group">
+                <RouterLink
+                  to={item.to}
+                  className={`relative px-4 py-2 transition-all duration-300 flex items-center gap-2 hover:text-primary ${
+                    location.pathname === item.to
+                      ? "text-primary"
+                      : "text-foreground/70"
+                  }`}
+                >
+                  <Icon
+                    icon={item.icon}
+                    className={`text-lg transition-transform duration-300 group-hover:scale-110 ${
+                      location.pathname === item.to ? "animate-pulse" : ""
+                    }`}
+                  />
+                  {item.label}
+                  <span
+                    className={`absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-primary-500 to-secondary-500 transform origin-left transition-transform duration-300 ${
+                      location.pathname === item.to
+                        ? "scale-x-100"
+                        : "scale-x-0"
+                    } group-hover:scale-x-100`}
+                  ></span>
+                </RouterLink>
+                <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-primary/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </NavbarItem>
+            ))}
       </NavbarContent>
 
       <NavbarContent justify="end" className="gap-4">
         <NavbarItem>
           <ThemeSwitch />
         </NavbarItem>
-        <NavbarItem>
+        <NavbarItem className="hidden sm:flex">
           {isHomePage ? (
             <Button
               as={UILink}
               href="#contact"
               className="relative overflow-hidden bg-gradient-to-r from-primary-500 via-secondary-500 to-primary-500 text-white shadow-lg hover:shadow-primary/25 hover-lift group animate-morph-gradient"
               size="sm"
+              onClick={() => setIsMenuOpen(false)}
             >
               <span className="relative z-10 flex items-center gap-2">
                 Contact Me
@@ -177,6 +197,7 @@ export function Navigation() {
               to="/"
               className="relative overflow-hidden bg-gradient-to-r from-primary-500 via-secondary-500 to-primary-500 text-white shadow-lg hover:shadow-primary/25 hover-lift group animate-morph-gradient"
               size="sm"
+              onClick={() => setIsMenuOpen(false)}
             >
               <span className="relative z-10 flex items-center gap-2">
                 Back to Home
@@ -190,6 +211,32 @@ export function Navigation() {
           )}
         </NavbarItem>
       </NavbarContent>
+
+      <NavbarMenu className="pt-6 bg-background/95 backdrop-blur-xl">
+        {menuItems.map((item, index) => (
+          <NavbarMenuItem key={`${item.href || item.to}-${index}`}>
+            {item.href ? (
+              <UILink
+                href={item.href}
+                className="w-full flex items-center gap-2 py-2 text-lg hover:text-primary transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <Icon icon={item.icon} />
+                {item.label}
+              </UILink>
+            ) : (
+              <RouterLink
+                to={item.to}
+                className="w-full flex items-center gap-2 py-2 text-lg hover:text-primary transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <Icon icon={item.icon} />
+                {item.label}
+              </RouterLink>
+            )}
+          </NavbarMenuItem>
+        ))}
+      </NavbarMenu>
 
       {/* Animated background elements */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">

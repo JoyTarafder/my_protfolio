@@ -70,9 +70,13 @@ const SkillCard = ({
     <Tooltip
       content={
         <div className="p-2 max-w-xs">
-          <p className="font-semibold mb-1">{skill.name}</p>
-          <p className="text-sm text-default-500">{skill.description}</p>
-          <div className="mt-2 flex items-center gap-2 text-tiny">
+          <p className="font-semibold mb-1 text-sm sm:text-base">
+            {skill.name}
+          </p>
+          <p className="text-xs sm:text-sm text-default-500">
+            {skill.description}
+          </p>
+          <div className="mt-2 flex items-center gap-2 text-[10px] sm:text-tiny">
             <span className="font-medium">{skill.level}</span>
             <span>•</span>
             <span>{skill.years} years</span>
@@ -89,22 +93,22 @@ const SkillCard = ({
         onMouseLeave={() => setIsHovered(false)}
       >
         <div
-          className={`absolute inset-0 bg-gradient-to-br ${categoryColor} rounded-2xl opacity-0 group-hover:opacity-10 transition-opacity duration-300`}
+          className={`absolute inset-0 bg-gradient-to-br ${categoryColor} rounded-xl sm:rounded-2xl opacity-0 group-hover:opacity-10 transition-opacity duration-300`}
         />
         <div
           className={`
-          w-24 h-24 flex items-center justify-center
+          w-16 h-16 sm:w-24 sm:h-24 flex items-center justify-center
           bg-background border border-default-200
-          rounded-2xl transition-all duration-300
+          rounded-xl sm:rounded-2xl transition-all duration-300
           ${isHovered ? "scale-110 shadow-lg" : ""}
         `}
         >
           <div className="relative">
-            <Icon icon={skill.icon} className="text-4xl" />
+            <Icon icon={skill.icon} className="text-2xl sm:text-4xl" />
             <div
               className={`
-              absolute -bottom-1 -right-1 w-4 h-4 rounded-full
-              flex items-center justify-center text-[8px] font-bold
+              absolute -bottom-1 -right-1 w-3 h-3 sm:w-4 sm:h-4 rounded-full
+              flex items-center justify-center text-[6px] sm:text-[8px] font-bold
               bg-gradient-to-br ${categoryColor} text-white
             `}
             >
@@ -123,31 +127,38 @@ const SkillCard = ({
 
 export function SkillsSection() {
   return (
-    <section className="py-32 px-4 relative overflow-hidden" id="skills">
+    <section
+      className="py-16 sm:py-32 px-4 relative overflow-hidden"
+      id="skills"
+    >
       {/* Background elements */}
       <div className="absolute inset-0 bg-grid-primary/[0.02] -z-1" />
       <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
 
       <div className="max-w-6xl mx-auto relative">
-        <div className="flex flex-col items-center text-center mb-16">
-          <h2 className="text-4xl font-bold mb-4">Skills & Expertise</h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-full" />
-          <p className="mt-6 text-xl text-default-600 max-w-2xl">
+        <div className="flex flex-col items-center text-center mb-10 sm:mb-16">
+          <h2 className="text-3xl sm:text-4xl font-bold mb-3 sm:mb-4">
+            Skills & Expertise
+          </h2>
+          <div className="w-16 sm:w-24 h-0.5 sm:h-1 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-full" />
+          <p className="mt-4 sm:mt-6 text-base sm:text-xl text-default-600 max-w-2xl">
             A showcase of my technical expertise and professional skillset
           </p>
         </div>
 
-        <div className="space-y-16">
+        <div className="space-y-10 sm:space-y-16">
           {skillCategories.map((category) => (
-            <div key={category.name} className="space-y-6">
-              <div className="flex items-center gap-4">
+            <div key={category.name} className="space-y-4 sm:space-y-6">
+              <div className="flex items-center gap-3 sm:gap-4">
                 <div
-                  className={`h-8 w-2 rounded-full bg-gradient-to-b ${category.color}`}
+                  className={`h-6 sm:h-8 w-1.5 sm:w-2 rounded-full bg-gradient-to-b ${category.color}`}
                 />
-                <h3 className="text-2xl font-semibold">{category.name}</h3>
+                <h3 className="text-xl sm:text-2xl font-semibold">
+                  {category.name}
+                </h3>
               </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 justify-items-center">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6 justify-items-center">
                 {category.items.map((skill) => (
                   <SkillCard
                     key={skill.name}

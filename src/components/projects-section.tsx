@@ -71,7 +71,7 @@ export function ProjectsSection() {
   return (
     <section
       ref={sectionRef}
-      className="py-32 px-4 relative overflow-hidden"
+      className="py-16 sm:py-32 px-4 relative overflow-hidden"
       id="projects"
     >
       {/* Enhanced background elements */}
@@ -80,7 +80,7 @@ export function ProjectsSection() {
 
       {/* Subtle background blur */}
       <div
-        className="absolute top-40 right-10 w-96 h-96 rounded-full mix-blend-multiply filter blur-[120px] opacity-[0.02] animate-float"
+        className="absolute top-40 right-10 w-64 sm:w-96 h-64 sm:h-96 rounded-full mix-blend-multiply filter blur-[120px] opacity-[0.02] animate-float"
         style={{ background: "rgba(var(--color-primary), 1)" }}
       />
 
@@ -89,15 +89,15 @@ export function ProjectsSection() {
 
       <div className="max-w-6xl mx-auto relative">
         <div
-          className={`flex flex-col items-center text-center mb-20 ${
+          className={`flex flex-col items-center text-center mb-12 sm:mb-20 ${
             isVisible ? "animate-slide-up" : "opacity-0"
           }`}
         >
-          <h2 className="text-4xl font-bold mb-4 text-[rgba(var(--color-primary),0.9)]">
+          <h2 className="text-3xl sm:text-4xl font-bold mb-3 sm:mb-4 text-[rgba(var(--color-primary),0.9)]">
             Featured Projects
           </h2>
-          <div className="w-20 h-0.5 bg-gradient-to-r from-transparent via-[rgba(var(--color-primary),0.3)] to-transparent rounded-full mb-6" />
-          <p className="mt-4 text-lg text-default-600 max-w-2xl">
+          <div className="w-16 sm:w-20 h-0.5 bg-gradient-to-r from-transparent via-[rgba(var(--color-primary),0.3)] to-transparent rounded-full mb-4 sm:mb-6" />
+          <p className="mt-3 sm:mt-4 text-base sm:text-lg text-default-600 max-w-2xl px-4">
             Here are some of my recent projects that showcase my skills and
             experience.
           </p>
@@ -105,34 +105,37 @@ export function ProjectsSection() {
 
         {/* Project filters - enhanced */}
         <div
-          className={`flex justify-center mb-16 ${
+          className={`flex justify-center mb-10 sm:mb-16 overflow-x-auto pb-4 sm:pb-0 ${
             isVisible ? "animate-slide-up stagger-1" : "opacity-0"
           }`}
         >
           <div className="flex p-1 bg-[rgba(var(--color-primary),0.03)] rounded-full shadow-sm">
             {[
-              { id: "all", label: "All Projects", icon: "lucide:grid" },
+              { id: "all", label: "All", icon: "lucide:grid" },
               { id: "featured", label: "Featured", icon: "lucide:star" },
-              { id: "web", label: "Web Apps", icon: "lucide:globe" },
-              { id: "mobile", label: "Mobile Apps", icon: "lucide:smartphone" },
+              { id: "web", label: "Web", icon: "lucide:globe" },
+              { id: "mobile", label: "Mobile", icon: "lucide:smartphone" },
             ].map((category) => (
               <button
                 key={category.id}
                 onClick={() => setFilter(category.id)}
-                className={`flex items-center px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 ${
+                className={`flex items-center px-4 sm:px-6 py-2 sm:py-3 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap ${
                   filter === category.id
                     ? "bg-[rgba(var(--color-primary),0.9)] text-white shadow-sm"
                     : "text-default-600 hover:text-[rgba(var(--color-primary),0.9)]"
                 }`}
               >
                 <Icon icon={category.icon} className="mr-2" />
-                {category.label}
+                <span className="hidden sm:inline">{category.label}</span>
+                <span className="sm:hidden">
+                  {category.label.split(" ")[0]}
+                </span>
               </button>
             ))}
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {filteredProjects.map((project, index) => (
             <div
               key={project.title}
@@ -144,7 +147,7 @@ export function ProjectsSection() {
             >
               <div className="elegant-card h-full group">
                 {/* Image container */}
-                <div className="relative overflow-hidden h-56 rounded-lg mb-6">
+                <div className="relative overflow-hidden h-48 sm:h-56 rounded-lg mb-4 sm:mb-6">
                   <Image
                     src={project.image}
                     alt={project.title}
@@ -152,23 +155,30 @@ export function ProjectsSection() {
                   />
 
                   {/* Overlay on hover - enhanced */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[rgba(var(--color-dark),0.7)] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
+                  <div className="absolute inset-0 bg-gradient-to-t from-[rgba(var(--color-dark),0.7)] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4 sm:p-6">
                     <div className="text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                      <p className="text-white/90 mb-4 line-clamp-3">
+                      <p className="text-white/90 mb-3 sm:mb-4 line-clamp-3 text-sm sm:text-base">
                         {project.description}
                       </p>
-                      <div className="flex gap-3">
+                      <div className="flex gap-2 sm:gap-3">
                         <Button
                           size="sm"
-                          className="bg-white text-[rgba(var(--color-primary),0.9)] border-0 hover-lift"
-                          endContent={<Icon icon="lucide:external-link" />}
+                          className="bg-white text-[rgba(var(--color-primary),0.9)] border-0 hover-lift text-xs sm:text-sm px-3 sm:px-4"
+                          endContent={
+                            <Icon
+                              icon="lucide:external-link"
+                              className="text-base"
+                            />
+                          }
                         >
                           Demo
                         </Button>
                         <Button
                           size="sm"
-                          className="bg-[rgba(255,255,255,0.1)] text-white border-0 hover-lift"
-                          endContent={<Icon icon="lucide:github" />}
+                          className="bg-[rgba(255,255,255,0.1)] text-white border-0 hover-lift text-xs sm:text-sm px-3 sm:px-4"
+                          endContent={
+                            <Icon icon="lucide:github" className="text-base" />
+                          }
                         >
                           Code
                         </Button>
@@ -178,7 +188,7 @@ export function ProjectsSection() {
 
                   {/* Featured badge - enhanced */}
                   {project.featured && (
-                    <div className="absolute top-4 right-4 featured-badge">
+                    <div className="absolute top-3 sm:top-4 right-3 sm:right-4 featured-badge text-xs sm:text-sm">
                       <Icon
                         icon="lucide:star"
                         className="inline-block mr-1 text-xs"
@@ -190,34 +200,46 @@ export function ProjectsSection() {
 
                 {/* Content - enhanced */}
                 <div>
-                  <h3 className="text-xl font-semibold mb-2 text-[rgba(var(--color-primary),0.9)] group-hover:text-[rgba(var(--color-primary),1)] transition-colors duration-300">
+                  <h3 className="text-lg sm:text-xl font-semibold mb-2 text-[rgba(var(--color-primary),0.9)] group-hover:text-[rgba(var(--color-primary),1)] transition-colors duration-300">
                     {project.title}
                   </h3>
-                  <p className="text-default-500 mb-4 line-clamp-2">
+                  <p className="text-default-500 mb-3 sm:mb-4 line-clamp-2 text-sm sm:text-base">
                     {project.description}
                   </p>
 
                   {/* Tags - enhanced */}
-                  <div className="flex flex-wrap gap-2 mb-6">
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-6">
                     {project.tags.map((tag) => (
-                      <span key={tag} className="project-tag">
+                      <span
+                        key={tag}
+                        className="project-tag text-xs sm:text-sm px-2 sm:px-3 py-1"
+                      >
                         {tag}
                       </span>
                     ))}
                   </div>
 
                   {/* Buttons - enhanced */}
-                  <div className="flex gap-3 w-full">
+                  <div className="flex gap-2 sm:gap-3 w-full">
                     <Button
-                      className="flex-1 bg-[rgba(var(--color-primary),0.9)] text-white hover:bg-[rgba(var(--color-primary),1)] hover-lift"
-                      endContent={<Icon icon="lucide:external-link" />}
+                      size="sm"
+                      className="flex-1 bg-[rgba(var(--color-primary),0.9)] text-white hover:bg-[rgba(var(--color-primary),1)] hover-lift text-xs sm:text-sm h-8 sm:h-10"
+                      endContent={
+                        <Icon
+                          icon="lucide:external-link"
+                          className="text-base"
+                        />
+                      }
                     >
                       Live Demo
                     </Button>
                     <Button
-                      className="flex-1 bg-transparent border border-[rgba(var(--color-primary),0.2)] text-[rgba(var(--color-primary),0.9)] hover:bg-[rgba(var(--color-primary),0.04)] hover-lift"
+                      size="sm"
+                      className="flex-1 bg-transparent border border-[rgba(var(--color-primary),0.2)] text-[rgba(var(--color-primary),0.9)] hover:bg-[rgba(var(--color-primary),0.04)] hover-lift text-xs sm:text-sm h-8 sm:h-10"
                       variant="bordered"
-                      endContent={<Icon icon="lucide:github" />}
+                      endContent={
+                        <Icon icon="lucide:github" className="text-base" />
+                      }
                     >
                       View Code
                     </Button>
@@ -230,16 +252,19 @@ export function ProjectsSection() {
 
         {/* View more projects button - enhanced */}
         <div
-          className={`flex justify-center mt-16 ${
+          className={`flex justify-center mt-12 sm:mt-16 ${
             isVisible ? "animate-slide-up stagger-4" : "opacity-0"
           }`}
         >
           <Link to="/projects">
             <Button
               size="lg"
-              className="px-8 bg-[rgba(var(--color-primary),0.9)] text-white hover:bg-[rgba(var(--color-primary),1)] button-3d"
+              className="px-6 sm:px-8 py-2 sm:py-3 bg-[rgba(var(--color-primary),0.9)] text-white hover:bg-[rgba(var(--color-primary),1)] button-3d text-sm sm:text-base"
               endContent={
-                <Icon icon="lucide:arrow-right" className="text-xl" />
+                <Icon
+                  icon="lucide:arrow-right"
+                  className="text-lg sm:text-xl"
+                />
               }
             >
               View All Projects
