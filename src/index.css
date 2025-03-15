@@ -1089,3 +1089,63 @@
   animation: twinkle var(--duration, 3s) ease-in-out infinite;
   animation-delay: var(--delay, 0s);
 }
+
+/* Gradient text shine animation that moves from right to left continuously with blinking effect */
+@keyframes gradient-text-shine-animation {
+  0% {
+    background-position: 200% center;
+    opacity: 0.85;
+  }
+  50% {
+    background-position: 100% center;
+    opacity: 1;
+  }
+  100% {
+    background-position: 0% center;
+    opacity: 0.85;
+  }
+}
+
+.gradient-text-shine {
+  background: linear-gradient(
+    to right,
+    rgba(var(--color-primary), 0.9),
+    rgba(var(--color-secondary), 1),
+    rgba(var(--color-accent), 0.95),
+    rgba(var(--color-primary), 0.9)
+  );
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: gradient-text-shine-animation 3s linear infinite;
+  display: inline-block;
+  text-shadow: 0 0 10px rgba(var(--color-primary), 0.2);
+  position: relative;
+  letter-spacing: 0.02em;
+}
+
+/* Add a subtle pulsing glow effect */
+.gradient-text-shine::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  opacity: 0;
+  filter: blur(8px);
+  animation: text-pulse 3s ease-in-out infinite;
+}
+
+@keyframes text-pulse {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}

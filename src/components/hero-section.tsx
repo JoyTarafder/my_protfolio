@@ -1,7 +1,6 @@
 import { Icon } from "@iconify/react";
 import { Button } from "@nextui-org/react";
 import { useEffect, useRef, useState } from "react";
-import { toast } from "react-hot-toast";
 
 export function HeroSection() {
   const [isVisible, setIsVisible] = useState(false);
@@ -42,26 +41,26 @@ export function HeroSection() {
   const movement2 = calculateMovement(10);
   const movement3 = calculateMovement(20);
 
-  const handleDownloadCV = () => {
-    try {
-      // Update this URL to match your CV file location in the public folder
-      const cvUrl = "/files/Joy_Tarafder_CV.pdf";
+  // const handleDownloadCV = () => {
+  //   try {
+  //     // Update this URL to match your CV file location in the public folder
+  //     const cvUrl = "/files/Joy_Tarafder_CV.pdf";
 
-      // Create a temporary link element
-      const link = document.createElement("a");
-      link.href = cvUrl;
-      link.download = "Joy_Tarafder_CV.pdf"; // The name that will be used when downloading
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+  //     // Create a temporary link element
+  //     const link = document.createElement("a");
+  //     link.href = cvUrl;
+  //     link.download = "Joy_Tarafder_CV.pdf"; // The name that will be used when downloading
+  //     document.body.appendChild(link);
+  //     link.click();
+  //     document.body.removeChild(link);
 
-      // Show success notification
-      toast.success("CV download started successfully!");
-    } catch (error) {
-      // Show error notification if something goes wrong
-      toast.error("Failed to download CV. Please try again.");
-    }
-  };
+  //     // Show success notification
+  //     toast.success("CV download started successfully!");
+  //   } catch (error) {
+  //     // Show error notification if something goes wrong
+  //     toast.error("Failed to download CV. Please try again.");
+  //   }
+  // };
 
   const handleViewWork = () => {
     const projectsSection = document.getElementById("projects");
@@ -143,7 +142,10 @@ export function HeroSection() {
         </div>
 
         <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold mb-4 sm:mb-6 text-[rgba(var(--color-primary),0.9)] animate-slide-up stagger-2">
-          Hi, This is <span className="gradient-text">Joy Tarafder</span>
+          Hi, This is <br />
+          <span className="gradient-text-shine" data-text="Joy Tarafder">
+            Joy Tarafder
+          </span>
         </h1>
 
         <div className="relative mb-8 sm:mb-12 animate-slide-up stagger-3">
@@ -205,7 +207,7 @@ export function HeroSection() {
           >
             <span className="relative z-10">View My Work</span>
           </Button>
-          <Button
+          {/* <Button
             variant="bordered"
             size="lg"
             className="w-full sm:w-auto text-base sm:text-lg h-12 sm:h-14 px-6 sm:px-8 border-[rgba(var(--color-primary),0.2)] text-[rgba(var(--color-primary),0.9)] hover:bg-[rgba(var(--color-primary),0.04)] elegant-button"
@@ -213,11 +215,11 @@ export function HeroSection() {
             onClick={handleDownloadCV}
           >
             Download CV
-          </Button>
+          </Button> */}
         </div>
 
         {/* Social media icons - enhanced */}
-        <div className="mt-12 sm:mt-16 flex justify-center gap-4 sm:gap-6 animate-slide-up stagger-5">
+        {/* <div className="mt-12 sm:mt-16 flex justify-center gap-4 sm:gap-6 animate-slide-up stagger-5">
           {[
             { icon: "lucide:github", url: "https://github.com/JoyTarafder" },
             {
@@ -245,7 +247,7 @@ export function HeroSection() {
               </div>
             </a>
           ))}
-        </div>
+        </div> */}
 
         {/* Scroll indicator - enhanced */}
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce hidden sm:block">
