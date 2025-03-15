@@ -1,6 +1,7 @@
 import { Button, Card, CardBody } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { useEffect, useRef, useState } from "react";
+import { toast } from "react-hot-toast";
 
 const socialLinks = [
   {
@@ -297,20 +298,24 @@ export function AboutSection() {
               <div className="relative inline-block mb-6 sm:mb-8 group perspective-1000">
                 {/* Animated background glow */}
                 <div className="absolute -inset-4 bg-gradient-to-r from-primary-500/20 via-secondary-500/10 to-primary-500/20 rounded-xl blur-xl opacity-70 group-hover:opacity-100 animate-gradient-shift transition-opacity duration-700"></div>
-                
+
                 {/* Decorative corner elements with animation */}
                 <div className="absolute -left-3 sm:-left-4 -top-3 sm:-top-4 w-6 sm:w-8 h-6 sm:h-8 border-t-2 border-l-2 border-[rgba(var(--color-primary),0.6)] opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500"></div>
                 <div className="absolute -right-3 sm:-right-4 -bottom-3 sm:-bottom-4 w-6 sm:w-8 h-6 sm:h-8 border-b-2 border-r-2 border-[rgba(var(--color-primary),0.6)] opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500"></div>
-                
+
                 {/* Floating particles */}
                 <div className="absolute -inset-6 overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
                   {[...Array(6)].map((_, i) => (
-                    <div key={i} className="absolute w-1 h-1 rounded-full bg-primary-500/60 animate-float-particle" style={{
-                      left: `${Math.random() * 100}%`,
-                      top: `${Math.random() * 100}%`,
-                      animationDelay: `${i * 0.2}s`,
-                      animationDuration: `${3 + Math.random() * 2}s`
-                    }}></div>
+                    <div
+                      key={i}
+                      className="absolute w-1 h-1 rounded-full bg-primary-500/60 animate-float-particle"
+                      style={{
+                        left: `${Math.random() * 100}%`,
+                        top: `${Math.random() * 100}%`,
+                        animationDelay: `${i * 0.2}s`,
+                        animationDuration: `${3 + Math.random() * 2}s`,
+                      }}
+                    ></div>
                   ))}
                 </div>
 
@@ -319,19 +324,22 @@ export function AboutSection() {
                   <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary-500 to-secondary-500 group-hover:from-secondary-500 group-hover:to-primary-500 transition-all duration-700">
                     Joy Tarafder
                   </h3>
-                  
+
                   {/* Animated underline */}
                   <div className="relative h-0.5 overflow-hidden">
                     <div className="w-full h-full bg-gradient-to-r from-primary-500/80 via-secondary-500/80 to-primary-500/80 rounded-full transform translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-700"></div>
                   </div>
-                  
+
                   {/* Subtle shine effect */}
                   <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/30 to-white/0 opacity-0 group-hover:opacity-100 rounded-lg transform translate-x-[-100%] group-hover:translate-x-[100%] transition-all duration-1000"></div>
                 </div>
-                
+
                 {/* Decorative circles with pulse */}
                 <div className="absolute -right-2 -bottom-2 w-4 sm:w-6 h-4 sm:h-6 rounded-full border border-[rgba(var(--color-primary),0.4)] opacity-70 group-hover:opacity-100 animate-pulse-slow"></div>
-                <div className="absolute -left-2 -top-2 w-3 sm:w-4 h-3 sm:h-4 rounded-full border border-[rgba(var(--color-primary),0.4)] opacity-70 group-hover:opacity-100 animate-pulse-slow" style={{animationDelay: "0.5s"}}></div>
+                <div
+                  className="absolute -left-2 -top-2 w-3 sm:w-4 h-3 sm:h-4 rounded-full border border-[rgba(var(--color-primary),0.4)] opacity-70 group-hover:opacity-100 animate-pulse-slow"
+                  style={{ animationDelay: "0.5s" }}
+                ></div>
               </div>
 
               <p className="text-sm sm:text-base md:text-lg text-default-600 mb-6 sm:mb-8 leading-relaxed">
