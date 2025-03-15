@@ -70,41 +70,51 @@ export function ContactSection() {
 
   return (
     <section
-      className="py-16 sm:py-32 px-4 bg-gradient-to-b from-background to-default-50"
+      className="py-16 sm:py-32 px-4 relative overflow-hidden"
       id="contact"
     >
-      <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col items-center text-center mb-10 sm:mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-3 sm:mb-4">
-            Get in Touch
-          </h2>
-          <div className="w-16 sm:w-24 h-0.5 sm:h-1 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-full" />
-          <p className="mt-4 sm:mt-6 text-base sm:text-xl text-default-600 max-w-2xl px-4">
+      {/* Background elements */}
+      <div className="absolute inset-0 bg-grid-primary/[0.02] -z-1" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[rgba(var(--color-primary),0.01)] to-transparent" />
+      <div
+        className="absolute top-40 right-10 w-64 sm:w-96 h-64 sm:h-96 rounded-full mix-blend-multiply filter blur-[120px] opacity-[0.04]"
+        style={{ background: "rgba(var(--color-primary), 1)" }}
+      />
+
+      <div className="max-w-6xl mx-auto relative">
+        <div className="flex flex-col items-center text-center mb-12 sm:mb-20">
+          <div className="inline-block mb-4">
+            <h2 className="text-3xl sm:text-5xl font-bold text-white bg-clip-text text-transparent bg-gradient-to-r from-[rgba(var(--color-primary),1)] to-[rgba(var(--color-primary),0.6)]">
+              Get in Touch
+            </h2>
+            <div className="w-full h-1 mt-2 bg-gradient-to-r from-[rgba(var(--color-primary),0.4)] to-transparent rounded-full transform origin-left group-hover:scale-x-110 transition-transform duration-300"></div>
+          </div>
+          <p className="mt-4 sm:mt-6 text-base sm:text-xl text-default-600 max-w-2xl px-4 leading-relaxed">
             Have a project in mind? Let's work together to create something
             amazing.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
-          <Card className="bg-background/60 backdrop-blur-sm border border-default-200">
-            <CardBody className="gap-4 sm:gap-6">
-              <div className="space-y-6 sm:space-y-8">
+        <div className="grid md:grid-cols-2 gap-8 sm:gap-12">
+          <Card className="bg-background/40 backdrop-blur-xl border-none shadow-xl hover:shadow-2xl transition-shadow duration-300">
+            <CardBody className="gap-6 sm:gap-8">
+              <div className="space-y-8 sm:space-y-10">
                 {contactInfo.map((item) => (
                   <div
                     key={item.label}
-                    className="flex items-center gap-3 sm:gap-4"
+                    className="flex items-center gap-4 sm:gap-6 group hover:translate-x-1 transition-transform duration-300"
                   >
-                    <div className="p-3 sm:p-4 rounded-lg sm:rounded-xl bg-primary-50">
+                    <div className="p-4 sm:p-5 rounded-2xl bg-[rgba(var(--color-primary),0.06)] border border-[rgba(var(--color-primary),0.1)] group-hover:bg-[rgba(var(--color-primary),0.1)] transition-colors duration-300">
                       <Icon
                         icon={item.icon}
-                        className="text-xl sm:text-2xl text-primary-500"
+                        className="text-2xl sm:text-3xl text-white"
                       />
                     </div>
                     <div>
-                      <h3 className="text-xs sm:text-sm font-medium text-default-500">
+                      <h3 className="text-sm sm:text-base font-medium text-default-500 mb-1">
                         {item.label}
                       </h3>
-                      <p className="text-base sm:text-lg font-medium">
+                      <p className="text-lg sm:text-xl font-semibold text-white">
                         {item.value}
                       </p>
                     </div>
@@ -114,11 +124,11 @@ export function ContactSection() {
             </CardBody>
           </Card>
 
-          <Card className="bg-background/60 backdrop-blur-sm border border-default-200">
+          <Card className="bg-background/40 backdrop-blur-xl border-none shadow-xl hover:shadow-2xl transition-shadow duration-300">
             <CardBody>
               <form
                 onSubmit={handleSubmit}
-                className="flex flex-col gap-4 sm:gap-6"
+                className="flex flex-col gap-6 sm:gap-8"
               >
                 <Input
                   name="name"
@@ -131,12 +141,13 @@ export function ContactSection() {
                   startContent={
                     <Icon
                       icon="lucide:user"
-                      className="text-default-400 text-sm sm:text-base"
+                      className="text-white text-base sm:text-lg"
                     />
                   }
                   classNames={{
-                    label: "text-sm sm:text-base",
-                    input: "text-sm sm:text-base",
+                    label: "text-sm sm:text-base text-default-500",
+                    input: "text-base sm:text-lg text-white",
+                    inputWrapper: "bg-[rgba(var(--color-primary),0.04)] border-[rgba(var(--color-primary),0.1)] hover:border-[rgba(var(--color-primary),0.2)] focus-within:border-[rgba(var(--color-primary),0.3)]"
                   }}
                   isRequired
                 />
@@ -152,12 +163,13 @@ export function ContactSection() {
                   startContent={
                     <Icon
                       icon="lucide:mail"
-                      className="text-default-400 text-sm sm:text-base"
+                      className="text-white text-base sm:text-lg"
                     />
                   }
                   classNames={{
-                    label: "text-sm sm:text-base",
-                    input: "text-sm sm:text-base",
+                    label: "text-sm sm:text-base text-default-500",
+                    input: "text-base sm:text-lg text-white",
+                    inputWrapper: "bg-[rgba(var(--color-primary),0.04)] border-[rgba(var(--color-primary),0.1)] hover:border-[rgba(var(--color-primary),0.2)] focus-within:border-[rgba(var(--color-primary),0.3)]"
                   }}
                   isRequired
                 />
@@ -171,8 +183,9 @@ export function ContactSection() {
                   value={formData.message}
                   onChange={handleChange}
                   classNames={{
-                    label: "text-sm sm:text-base",
-                    input: "text-sm sm:text-base",
+                    label: "text-sm sm:text-base text-default-500",
+                    input: "text-base sm:text-lg text-white",
+                    inputWrapper: "bg-[rgba(var(--color-primary),0.04)] border-[rgba(var(--color-primary),0.1)] hover:border-[rgba(var(--color-primary),0.2)] focus-within:border-[rgba(var(--color-primary),0.3)]"
                   }}
                   isRequired
                 />
@@ -180,11 +193,11 @@ export function ContactSection() {
                   color="primary"
                   type="submit"
                   size="lg"
-                  className="text-sm sm:text-base h-10 sm:h-12"
+                  className="text-base sm:text-lg h-12 sm:h-14 bg-gradient-to-r from-[rgba(var(--color-primary),1)] to-[rgba(var(--color-primary),0.8)] hover:opacity-90 transition-opacity"
                   endContent={
                     <Icon
                       icon={isSubmitting ? "lucide:loader" : "lucide:send"}
-                      className={`text-base sm:text-lg ${
+                      className={`text-lg sm:text-xl ${
                         isSubmitting ? "animate-spin" : ""
                       }`}
                     />
