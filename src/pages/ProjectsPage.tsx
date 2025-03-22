@@ -2,71 +2,7 @@ import { Button, Image } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-
-// Using the same projects data from the ProjectsSection
-const projects = [
-  {
-    title: "E-commerce Platform",
-    description: "A modern e-commerce platform built with React and Node.js",
-    image: "https://picsum.photos/800/600?random=1",
-    demo: "#",
-    code: "#",
-    tags: ["React", "Node.js", "MongoDB"],
-    featured: true,
-    category: "web",
-  },
-  {
-    title: "Task Management App",
-    description: "A collaborative task management application",
-    image: "https://picsum.photos/800/600?random=2",
-    demo: "#",
-    code: "#",
-    tags: ["React", "Firebase", "TailwindCSS"],
-    featured: false,
-    category: "web",
-  },
-  {
-    title: "Portfolio Website",
-    description: "A responsive portfolio website using React and TailwindCSS",
-    image: "https://picsum.photos/800/600?random=3",
-    demo: "#",
-    code: "#",
-    tags: ["React", "TailwindCSS", "Framer Motion"],
-    featured: true,
-    category: "web",
-  },
-  // Additional projects for the projects page
-  {
-    title: "Weather App",
-    description: "A weather application with real-time updates",
-    image: "https://picsum.photos/800/600?random=4",
-    demo: "#",
-    code: "#",
-    tags: ["React", "API Integration", "TailwindCSS"],
-    featured: false,
-    category: "web",
-  },
-  {
-    title: "Blog Platform",
-    description: "A full-featured blog platform with user authentication",
-    image: "https://picsum.photos/800/600?random=5",
-    demo: "#",
-    code: "#",
-    tags: ["React", "Node.js", "MongoDB", "Express"],
-    featured: false,
-    category: "web",
-  },
-  {
-    title: "Social Media Dashboard",
-    description: "A dashboard for managing social media accounts",
-    image: "https://picsum.photos/800/600?random=6",
-    demo: "#",
-    code: "#",
-    tags: ["React", "Redux", "TailwindCSS"],
-    featured: false,
-    category: "web",
-  },
-];
+import { projects } from "../data/projects";
 
 export function ProjectsPage() {
   const [isVisible, setIsVisible] = useState(false);
@@ -310,10 +246,10 @@ export function ProjectsPage() {
           </p>
 
           {/* Back to home button with enhanced styling */}
-          <Link to="/" className="mt-10 group">
+          <Link to="/" className="mt-10 group relative overflow-hidden">
             <Button
               variant="light"
-              className={`px-6 py-6 relative overflow-hidden group-hover:shadow-md transition-all duration-300 ${
+              className={`px-6 py-6 relative overflow-hidden group-hover:shadow-md transition-all duration-500 ${
                 isDarkMode
                   ? "text-white bg-[rgba(79,70,229,0.2)] border border-[rgba(79,70,229,0.3)]"
                   : "text-[#4f46e5] bg-white border border-[rgba(79,70,229,0.2)]"

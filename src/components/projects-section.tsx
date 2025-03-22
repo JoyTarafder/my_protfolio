@@ -2,39 +2,7 @@ import { Button, Image } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-
-const projects = [
-  {
-    title: "E-commerce Platform",
-    description: "A modern e-commerce platform built with React and Node.js",
-    image: "https://picsum.photos/800/600?random=1",
-    demo: "#",
-    code: "#",
-    tags: ["React", "Node.js", "MongoDB"],
-    featured: true,
-    category: "web",
-  },
-  {
-    title: "Task Management App",
-    description: "A collaborative task management application",
-    image: "https://picsum.photos/800/600?random=2",
-    demo: "#",
-    code: "#",
-    tags: ["React", "Firebase", "TailwindCSS"],
-    featured: false,
-    category: "web",
-  },
-  {
-    title: "Portfolio Website",
-    description: "A responsive portfolio website using React and TailwindCSS",
-    image: "https://picsum.photos/800/600?random=3",
-    demo: "#",
-    code: "#",
-    tags: ["React", "TailwindCSS", "Framer Motion"],
-    featured: true,
-    category: "web",
-  },
-];
+import { projects } from "../data/projects";
 
 export function ProjectsSection() {
   const [isVisible, setIsVisible] = useState(false);
@@ -60,13 +28,16 @@ export function ProjectsSection() {
     };
   }, []);
 
-  const filteredProjects = projects.filter((project) => {
-    if (filter === "all") return true;
-    if (filter === "featured") return project.featured;
-    if (filter === "web" || filter === "mobile")
-      return project.category === filter;
-    return true;
-  });
+  // Filter projects and take only the first 3 for the main page
+  const filteredProjects = projects
+    .filter((project) => {
+      if (filter === "all") return true;
+      if (filter === "featured") return project.featured;
+      if (filter === "web" || filter === "mobile")
+        return project.category === filter;
+      return true;
+    })
+    .slice(0, 3); // Show only 3 projects on the main page
 
   return (
     <section
@@ -155,13 +126,13 @@ export function ProjectsSection() {
                   />
 
                   {/* Overlay on hover - enhanced */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[rgba(var(--color-dark),0.7)] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4 sm:p-6">
+                  {/* <div className="absolute inset-0 bg-gradient-to-t from-[rgba(var(--color-dark),0.7)] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4 sm:p-6">
                     <div className="text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
                       <p className="text-white/90 mb-3 sm:mb-4 line-clamp-3 text-sm sm:text-base">
                         {project.description}
                       </p>
                       <div className="flex gap-2 sm:gap-3">
-                        <Button
+                      <Button
                           size="sm"
                           className="bg-white text-[rgba(var(--color-primary),0.9)] border-0 hover-lift text-xs sm:text-sm px-3 sm:px-4"
                           endContent={
@@ -169,7 +140,7 @@ export function ProjectsSection() {
                               icon="lucide:external-link"
                               className="text-base"
                             />
-                          }
+                          }                  
                         >
                           Demo
                         </Button>
@@ -184,7 +155,7 @@ export function ProjectsSection() {
                         </Button>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
 
                   {/* Featured badge - enhanced */}
                   {project.featured && (
@@ -230,6 +201,7 @@ export function ProjectsSection() {
                           className="text-base"
                         />
                       }
+                      onClick={() => window.open(project.demo, "_blank")}
                     >
                       Live Demo
                     </Button>
@@ -240,6 +212,7 @@ export function ProjectsSection() {
                       endContent={
                         <Icon icon="lucide:github" className="text-base" />
                       }
+                      onClick={() => window.open(project.code, "_blank")}
                     >
                       View Code
                     </Button>
@@ -256,18 +229,24 @@ export function ProjectsSection() {
             isVisible ? "animate-slide-up stagger-4" : "opacity-0"
           }`}
         >
-          <Link to="/projects">
+          <Link to="/projects" className="group">
             <Button
               size="lg"
-              className="px-6 sm:px-8 py-2 sm:py-3 bg-[rgba(var(--color-primary),0.9)] text-white hover:bg-[rgba(var(--color-primary),1)] button-3d text-sm sm:text-base"
+              className="px-6 sm:px-8 py-4 sm:py-6 bg-[rgba(var(--color-primary),0.9)] text-white hover:bg-[rgba(var(--color-primary),1)] button-3d text-sm sm:text-base relative overflow-hidden group-hover:shadow-lg group-hover:shadow-[rgba(var(--color-primary),0.3)]"
               endContent={
-                <Icon
-                  icon="lucide:arrow-right"
-                  className="text-lg sm:text-xl"
-                />
+                <div className="flex items-center">
+                  <span className="text-xs opacity-70 mr-2">
+                    +{projects.length - 3}
+                  </span>
+                  <Icon
+                    icon="lucide:arrow-right"
+                    className="text-lg sm:text-xl transition-transform duration-500 group-hover:translate-x-1"
+                  />
+                </div>
               }
             >
-              View All Projects
+              <span className="relative z-10">View All Projects</span>
+              <div className="absolute inset-0 bg-white/10 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500"></div>
             </Button>
           </Link>
         </div>

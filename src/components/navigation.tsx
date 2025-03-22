@@ -108,17 +108,17 @@ export function Navigation() {
           className="flex items-center gap-3 hover-scale group relative"
           onClick={() => setIsMenuOpen(false)}
         >
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-primary-500 via-secondary-500 to-primary-500 p-[2px] animate-morph-gradient overflow-hidden">
+          <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-primary-500 via-secondary-500 to-primary-500 p-[2px] animate-morph-gradient overflow-hidden">
             <div className="w-full h-full rounded-xl bg-background flex items-center justify-center relative overflow-hidden">
-              <span className="font-bold text-lg gradient-text group-hover:scale-110 transition-transform duration-300">
+              <span className="font-bold text-3xl gradient-text group-hover:scale-110 transition-transform duration-300">
                 JT
               </span>
               <div className="absolute inset-0 bg-gradient-to-r from-primary-500/10 to-secondary-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </div>
           </div>
           <div className="relative">
-            <p className="font-bold text-xl gradient-text animate-morph-gradient bg-clip-text">
-              Joy Tarafder
+            <p className="font-bold text-5xl gradient-text animate-morph-gradient bg-clip-text">
+              FolioJT
             </p>
             <div className="h-0.5 w-0 group-hover:w-full bg-gradient-to-r from-primary-500 to-secondary-500 transition-all duration-300"></div>
           </div>
