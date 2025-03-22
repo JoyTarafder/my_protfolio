@@ -25,7 +25,8 @@ export const projects: Project[] = [
   {
     title: "Course Folio Website",
     description: "A portfolio website for a course",
-    image: "https://i.ibb.co.com/SDmLWN5h/Whats-App-Image-2025-03-14-at-00-38-52-4f60ddc1.jpg",
+    image:
+      "https://i.ibb.co.com/SDmLWN5h/Whats-App-Image-2025-03-14-at-00-38-52-4f60ddc1.jpg",
     demo: "https://shantanukr.netlify.app/",
     code: "https://github.com/JoyTarafder/COURSEFOLIO.git",
     tags: ["Reactjs", "TailwindCSS", "TypeScript"],
@@ -36,7 +37,8 @@ export const projects: Project[] = [
   {
     title: "Basic Calculator",
     description: "A basic calculator with basic operations",
-    image: "https://i.ibb.co.com/jkcn5MD6/384644384-c19d4beb-b2fa-4ff1-b7e5-8125e3f28ab4.png",
+    image:
+      "https://i.ibb.co.com/jkcn5MD6/384644384-c19d4beb-b2fa-4ff1-b7e5-8125e3f28ab4.png",
     demo: "#",
     code: "https://github.com/JoyTarafder/Basic_Calculator_Mobile_App.git",
     tags: ["React", "API Integration", "TailwindCSS"],

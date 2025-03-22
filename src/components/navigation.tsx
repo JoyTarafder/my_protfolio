@@ -117,7 +117,7 @@ export function Navigation() {
             </div>
           </div>
           <div className="relative">
-            <p className="font-bold text-5xl gradient-text animate-morph-gradient bg-clip-text">
+            <p className="font-bold text-4xl gradient-text animate-morph-gradient bg-clip-text">
               FolioJT
             </p>
             <div className="h-0.5 w-0 group-hover:w-full bg-gradient-to-r from-primary-500 to-secondary-500 transition-all duration-300"></div>
