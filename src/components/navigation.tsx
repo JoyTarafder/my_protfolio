@@ -10,7 +10,7 @@ import {
   NavbarMenuToggle,
   Link as UILink,
 } from "@nextui-org/react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 import { ThemeSwitch } from "./theme-switch";
 
@@ -35,10 +35,17 @@ type MenuItem = HashMenuItem | RouteMenuItem;
 export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const glowRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
   const isHomePage = location.pathname === "/";
+
+  const handleMouseMove = useCallback((e: MouseEvent) => {
+    if (glowRef.current) {
+      glowRef.current.style.left = `${e.clientX / 20}px`;
+      glowRef.current.style.top = `${e.clientY / 20}px`;
+    }
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -62,17 +69,13 @@ export function Navigation() {
       }
     };
 
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-
     window.addEventListener("scroll", handleScroll);
     window.addEventListener("mousemove", handleMouseMove);
     return () => {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("mousemove", handleMouseMove);
     };
-  }, [isHomePage]);
+  }, [isHomePage, handleMouseMove]);
 
   const menuItems: MenuItem[] = isHomePage
     ? [
@@ -271,12 +274,9 @@ export function Navigation() {
       {/* Animated background elements */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div
+          ref={glowRef}
           className="absolute w-64 h-64 rounded-full bg-primary/5 blur-3xl"
-          style={{
-            left: `${mousePosition.x / 20}px`,
-            top: `${mousePosition.y / 20}px`,
-            transition: "all 0.3s ease",
-          }}
+          style={{ transition: "all 0.3s ease" }}
         ></div>
       </div>
     </Navbar>

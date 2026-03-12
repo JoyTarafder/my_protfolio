@@ -1,30 +1,68 @@
 import { Icon } from "@iconify/react";
 import { Button } from "@nextui-org/react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+
+const TECH_STACK = [
+  "React",
+  "JavaScript",
+  "TypeScript",
+  "TailwindCSS",
+  "Node.js",
+  "Next.js",
+  "HTML5",
+  "CSS3",
+  "Git",
+  "Figma",
+  "UI/UX",
+  "Responsive Design",
+  // Duplicate for seamless marquee loop
+  "React",
+  "JavaScript",
+  "TypeScript",
+  "TailwindCSS",
+  "Node.js",
+  "Next.js",
+];
 
 export function HeroSection() {
   const [isVisible, setIsVisible] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
+  const rafRef = useRef<number | null>(null);
+  const pendingMousePos = useRef<{ x: number; y: number } | null>(null);
+
+  const handleMouseMove = useCallback(
+    (e: MouseEvent) => {
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        pendingMousePos.current = {
+          x: e.clientX - rect.left,
+          y: e.clientY - rect.top,
+        };
+      }
+      if (rafRef.current === null) {
+        rafRef.current = requestAnimationFrame(() => {
+          if (pendingMousePos.current !== null) {
+            setMousePosition(pendingMousePos.current);
+          }
+          rafRef.current = null;
+        });
+      }
+    },
+    []
+  );
 
   useEffect(() => {
     setIsVisible(true);
 
-    const handleMouseMove = (e: MouseEvent) => {
-      if (containerRef.current) {
-        const rect = containerRef.current.getBoundingClientRect();
-        setMousePosition({
-          x: e.clientX - rect.left,
-          y: e.clientY - rect.top,
-        });
-      }
-    };
-
     window.addEventListener("mousemove", handleMouseMove);
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
+      if (rafRef.current !== null) {
+        cancelAnimationFrame(rafRef.current);
+      }
     };
-  }, []);
+  }, [handleMouseMove]);
 
   // Calculate the movement of the parallax elements based on mouse position
   const calculateMovement = (factor: number) => {
@@ -168,26 +206,7 @@ export function HeroSection() {
         {/* Animated tech stack marquee - enhanced */}
         <div className="w-full overflow-hidden mb-8 sm:mb-12 animate-slide-up stagger-3">
           <div className="flex animate-marquee">
-            {[
-              "React",
-              "JavaScript",
-              "TypeScript",
-              "TailwindCSS",
-              "Node.js",
-              "Next.js",
-              "HTML5",
-              "CSS3",
-              "Git",
-              "Figma",
-              "UI/UX",
-              "Responsive Design",
-              "React",
-              "JavaScript",
-              "TypeScript",
-              "TailwindCSS",
-              "Node.js",
-              "Next.js",
-            ].map((tech, index) => (
+            {TECH_STACK.map((tech, index) => (
               <span
                 key={`${tech}-${index}`}
                 className="mx-2 sm:mx-4 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-[rgba(var(--color-primary),0.04)] text-default-600 text-xs sm:text-sm font-medium whitespace-nowrap hover-scale"

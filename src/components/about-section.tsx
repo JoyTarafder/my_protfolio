@@ -1,6 +1,6 @@
 import { Button, Card, CardBody } from "@heroui/react";
 import { Icon } from "@iconify/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 
 const socialLinks = [
@@ -46,6 +46,53 @@ export function AboutSection() {
   const [isVisible, setIsVisible] = useState(false);
   const [activeTab, setActiveTab] = useState("about"); // "about", "experience", "education"
   const sectionRef = useRef<HTMLElement>(null);
+
+  // Memoize random particle positions/sizes so they don't change on every render
+  const starData = useMemo(
+    () =>
+      Array.from({ length: 12 }, (_, i) => {
+        const angle = (i * Math.PI * 2) / 12;
+        const distance = 70 + Math.random() * 30;
+        return {
+          angle,
+          distance,
+          opacity: Math.random() * 0.5 + 0.3,
+          top: `calc(50% + ${Math.sin(angle) * distance}px)`,
+          left: `calc(50% + ${Math.cos(angle) * distance}px)`,
+        };
+      }),
+    []
+  );
+
+  const stardustData = useMemo(
+    () =>
+      Array.from({ length: 30 }, (_, i) => {
+        const colorKey = ["primary", "secondary", "accent"][
+          Math.floor(Math.random() * 3)
+        ];
+        return {
+          top: `${Math.random() * 160 - 30}%`,
+          left: `${Math.random() * 160 - 30}%`,
+          width: `${Math.random() * 2 + 1}px`,
+          height: `${Math.random() * 2 + 1}px`,
+          background: `rgba(var(--color-${colorKey}), ${Math.random() * 0.6 + 0.4})`,
+          animationDelay: `${i * -0.15}s`,
+          animationDuration: `${Math.random() * 3 + 3}s`,
+        };
+      }),
+    []
+  );
+
+  const floatParticleData = useMemo(
+    () =>
+      Array.from({ length: 6 }, (_, i) => ({
+        left: `${Math.random() * 100}%`,
+        top: `${Math.random() * 100}%`,
+        animationDelay: `${i * 0.2}s`,
+        animationDuration: `${3 + Math.random() * 2}s`,
+      })),
+    []
+  );
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -195,42 +242,34 @@ export function AboutSection() {
 
                 {/* Constellation effect */}
                 <div className="absolute -inset-6 sm:-inset-8 md:-inset-10 animate-constellation">
-                  {[...Array(12)].map((_, i) => {
-                    const angle = (i * Math.PI * 2) / 12;
-                    const distance = 70 + Math.random() * 30;
-                    return (
-                      <div
-                        key={`star-${i}`}
-                        className="absolute w-1 h-1 bg-white rounded-full"
-                        style={{
-                          top: `calc(50% + ${Math.sin(angle) * distance}px)`,
-                          left: `calc(50% + ${Math.cos(angle) * distance}px)`,
-                          opacity: Math.random() * 0.5 + 0.3,
-                          boxShadow: "0 0 3px 1px rgba(255, 255, 255, 0.3)",
-                        }}
-                      />
-                    );
-                  })}
+                  {starData.map((star, i) => (
+                    <div
+                      key={`star-${i}`}
+                      className="absolute w-1 h-1 bg-white rounded-full"
+                      style={{
+                        top: star.top,
+                        left: star.left,
+                        opacity: star.opacity,
+                        boxShadow: "0 0 3px 1px rgba(255, 255, 255, 0.3)",
+                      }}
+                    />
+                  ))}
                 </div>
 
                 {/* Stardust particles */}
-                {[...Array(30)].map((_, i) => (
+                {stardustData.map((s, i) => (
                   <div
                     key={`stardust-${i}`}
                     className="absolute animate-stardust"
                     style={{
-                      top: `${Math.random() * 160 - 30}%`,
-                      left: `${Math.random() * 160 - 30}%`,
-                      width: `${Math.random() * 2 + 1}px`,
-                      height: `${Math.random() * 2 + 1}px`,
-                      background: `rgba(var(--color-${
-                        ["primary", "secondary", "accent"][
-                          Math.floor(Math.random() * 3)
-                        ]
-                      }, ${Math.random() * 0.6 + 0.4})`,
+                      top: s.top,
+                      left: s.left,
+                      width: s.width,
+                      height: s.height,
+                      background: s.background,
                       borderRadius: "50%",
-                      animationDelay: `${i * -0.15}s`,
-                      animationDuration: `${Math.random() * 3 + 3}s`,
+                      animationDelay: s.animationDelay,
+                      animationDuration: s.animationDuration,
                       boxShadow: "0 0 3px rgba(255, 255, 255, 0.3)",
                     }}
                   />
@@ -305,15 +344,15 @@ export function AboutSection() {
 
                 {/* Floating particles */}
                 <div className="absolute -inset-6 overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
-                  {[...Array(6)].map((_, i) => (
+                  {floatParticleData.map((p, i) => (
                     <div
                       key={i}
                       className="absolute w-1 h-1 rounded-full bg-primary-500/60 animate-float-particle"
                       style={{
-                        left: `${Math.random() * 100}%`,
-                        top: `${Math.random() * 100}%`,
-                        animationDelay: `${i * 0.2}s`,
-                        animationDuration: `${3 + Math.random() * 2}s`,
+                        left: p.left,
+                        top: p.top,
+                        animationDelay: p.animationDelay,
+                        animationDuration: p.animationDuration,
                       }}
                     ></div>
                   ))}

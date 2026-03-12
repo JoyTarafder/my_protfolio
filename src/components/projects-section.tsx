@@ -1,6 +1,6 @@
 import { Button, Image } from "@heroui/react";
 import { Icon } from "@iconify/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { projects } from "../data/projects";
 
@@ -29,15 +29,19 @@ export function ProjectsSection() {
   }, []);
 
   // Filter projects and take only the first 3 for the main page
-  const filteredProjects = projects
-    .filter((project) => {
-      if (filter === "all") return true;
-      if (filter === "featured") return project.featured;
-      if (filter === "web" || filter === "mobile")
-        return project.category === filter;
-      return true;
-    })
-    .slice(0, 3); // Show only 3 projects on the main page
+  const filteredProjects = useMemo(
+    () =>
+      projects
+        .filter((project) => {
+          if (filter === "all") return true;
+          if (filter === "featured") return project.featured;
+          if (filter === "web" || filter === "mobile")
+            return project.category === filter;
+          return true;
+        })
+        .slice(0, 3), // Show only 3 projects on the main page
+    [filter]
+  );
 
   return (
     <section
