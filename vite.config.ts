@@ -13,6 +13,9 @@ export default defineConfig({
       output: {
         manualChunks: {
           vendor: ["react", "react-dom", "react-router-dom"],
+          heroui: ["@heroui/react", "@nextui-org/react"],
+          icons: ["@iconify/react", "@tabler/icons-react"],
+          motion: ["motion"],
         },
       },
     },

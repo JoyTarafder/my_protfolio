@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Joy Tarafder</title>
+    <!-- Start Single Page Apps for GitHub Pages -->
+    <script type="text/javascript">
+      // Single Page Apps for GitHub Pages/Vercel
+      // MIT License
+      // https://github.com/rafgraph/spa-github-pages
+      (function (l) {
+        if (l.search[1] === "/") {
+          var decoded = l.search
+            .slice(1)
+            .split("&")
+            .map(function (s) {
+              return s.replace(/~and~/g, "&");
+            })
+            .join("?");
+          window.history.replaceState(
+            null,
+            null,
+            l.pathname.slice(0, -1) + decoded + l.hash
+          );
+        }
+      })(window.location);
+    </script>
+    <!-- End Single Page Apps for GitHub Pages -->
+    <script type="module" crossorigin src="/assets/index-EPqoZC6G.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/vendor-CCullCGr.js">
+    <link rel="modulepreload" crossorigin href="/assets/heroui-D900ipsF.js">
+    <link rel="modulepreload" crossorigin href="/assets/icons-D5m1MWfj.js">
+    <link rel="stylesheet" crossorigin href="/assets/index-Bry-2PZP.css">
+  </head>
+  <body class="h-full min-h-screen">
+    <div id="root"></div>
+    <script>
+      const observer = new MutationObserver((mutations) => {
+        const root = document.getElementById("root");
+        const isMounted = root && root.children.length > 0;
+        window.parent.postMessage(
+          {
+            type: "ROOT_MOUNT_STATUS",
+            isMounted,
+            content: root ? root.innerHTML : null,
+          },
+          "*"
+        );
+      });
+
+      observer.observe(document.getElementById("root"), {
+        childList: true,
+        subtree: true,
+      });
+    </script>
+  </body>
+</html>
